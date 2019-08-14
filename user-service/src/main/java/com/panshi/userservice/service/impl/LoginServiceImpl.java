@@ -6,6 +6,7 @@ import com.panshi.exception.BusinessException;
 import com.panshi.userservice.domain.PhoneVerifyDO;
 import com.panshi.userservice.domain.UserDO;
 import com.panshi.userservice.mapper.LoginMapper;
+import com.panshi.userservice.mapper.UtilMapper;
 import com.panshi.userservice.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,9 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private LoginMapper loginMapper;
 
+    @Autowired
+    private UtilMapper utilMapper;
+
     /**
      * 手机验证
      * @param phoneVerifyInputDTO
@@ -23,7 +27,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public void verifyLogin(PhoneVerifyInputDTO phoneVerifyInputDTO) {
         //判断手机号是否存在
-        UserDO user = loginMapper.findPhone(phoneVerifyInputDTO.getPhone());
+        UserDO user = utilMapper.findPhone(phoneVerifyInputDTO.getPhone());
         //如果不存在抛出异常
         if (user == null){
             throw new BusinessException(Message.PHONE_EMPTY.getCode(),Message.PHONE_EMPTY.getMsg());
@@ -34,5 +38,10 @@ public class LoginServiceImpl implements LoginService {
         if (phoneVerify == null){
             throw new BusinessException(Message.VERIFY_CODE_ERROR.getCode(),Message.VERIFY_CODE_ERROR.getMsg());
         }
+    }
+
+    @Override
+    public void login() {
+
     }
 }

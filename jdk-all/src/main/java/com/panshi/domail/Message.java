@@ -5,7 +5,8 @@ public enum Message {
     VERIFY_SUCCEED(200,"登录成功"),
 
     PHONE_EMPTY(301,"手机号不存在"),
-    VERIFY_CODE_ERROR(302,"验证码错误")
+    VERIFY_CODE_ERROR(302,"验证码错误"),
+
     ;
 
     Message(int code, String msg) {

@@ -9,11 +9,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface LoginMapper {
-    /**
-     * 查询手机号是否存在
-     * @param phone
-     */
-    UserDO findPhone(String phone);
+
 
     /**
      * 判断验证码是否正确

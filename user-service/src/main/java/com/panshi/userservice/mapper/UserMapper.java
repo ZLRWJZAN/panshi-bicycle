@@ -14,12 +14,6 @@ public interface UserMapper {
      */
     void phoneAddUser(UserDO userDO);
 
-    /**
-     * 查询手机是否存在
-     * @param phone
-     * @return
-     */
-    UserDO findPhone(String phone);
 
     /**
      * 注册发送手机验证码
