@@ -11,6 +11,7 @@ import com.panshi.domail.ReturnsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -20,6 +21,7 @@ import java.util.Date;
 */
 @Service
 public class BikeServiceImpl implements BikeService {
+
     @Autowired
     private BikeMapper bikeMapper;
     @Autowired
@@ -37,13 +39,25 @@ public class BikeServiceImpl implements BikeService {
         //根据用户id  在预约表中获得预约对象
         ExpiresDTO expires=em.getExpiresByUserId(Integer.valueOf(userid));
         //判断对象的是否过期
+        boolean after =exqTime(expires.getCTime());
+        if(!after){
+            return new ReturnDTO(300,after,"预约时间已过.");
+        }
         //查询数据判断用户是否已经预定
         String expires1 = expires.getExpires();
         if(expires.equals("1")&&expires==null){
-            return new ReturnDTO(300,false,"预约已过期");
+            return new ReturnDTO(300,false,"预约已过期.");
         }
         BikeDTO bike=bikeMapper.getBikeNum(expires.getBikeId());
         return new ReturnDTO(200,true,"数据查询成功.","1",bike.getBikeNum());
+    }
+    //判断是否在有效时间
+    private boolean exqTime(Date cTime) {
+        Date date = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(cTime);
+        c.add(Calendar.MINUTE,15);
+        return cTime.after(date);
     }
 
     /**
