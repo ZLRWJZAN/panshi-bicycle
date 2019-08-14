@@ -6,6 +6,7 @@ import com.panshi.exception.BusinessException;
 import com.panshi.userservice.domain.PhoneVerifyDO;
 import com.panshi.userservice.domain.UserDO;
 import com.panshi.userservice.mapper.UserMapper;
+import com.panshi.userservice.mapper.UtilMapper;
 import com.panshi.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private UtilMapper utilMapper;
+
     @Override
     public void phoneRegister(PhoneRegisterDTO registerDTO){
         //1、判断手机号是否存在
-        UserDO userDO = userMapper.findPhone(registerDTO.getPhone());
+        UserDO userDO = utilMapper.findPhone(registerDTO.getPhone());
         if(userDO.getPhone() != null || userDO.getPhone().equals("")){
             throw new BusinessException(Message.PHONE_REGISTER.getCode(),Message.PHONE_REGISTER.getMsg());
         }

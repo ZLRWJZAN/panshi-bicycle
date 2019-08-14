@@ -10,6 +10,7 @@ public enum Message {
     PHONE_REGISTER(303,"此手机号已被注册"),
     NO_VERIFY(304,"您还未发送验证码"),
     CORRECT_VERIFY(305,"请输入正确的验证码")
+
     ;
 
     Message(int code, String msg) {
