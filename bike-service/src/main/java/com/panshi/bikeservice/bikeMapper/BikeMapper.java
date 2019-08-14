@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Mapper
-public interface bikeMapper {
+public interface BikeMapper {
 
 }

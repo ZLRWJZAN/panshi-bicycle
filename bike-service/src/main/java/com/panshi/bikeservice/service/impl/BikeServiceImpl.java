@@ -1,8 +1,10 @@
 package com.panshi.bikeservice.service.impl;
 
+import com.panshi.bikeservice.bikeMapper.BikeMapper;
 import com.panshi.bikeservice.service.BikeService;
 import com.panshi.domail.ReturnDTO;
 import com.panshi.domail.ReturnsDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,6 +14,9 @@ import org.springframework.stereotype.Service;
 */
 @Service
 public class BikeServiceImpl implements BikeService {
+    @Autowired
+    private BikeMapper bikeMapper;
+
     /**
      * 查询该用户是否有预定
      * @param region 地区名称
@@ -25,6 +30,12 @@ public class BikeServiceImpl implements BikeService {
         return null;
     }
 
+    /**
+     * 解锁
+     * @param userid 用户id
+     * @param vehicleid
+     * @return
+     */
     @Override
     public ReturnsDTO deblocking(int userid, int vehicleid) {
         return null;
