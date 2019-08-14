@@ -1,7 +1,6 @@
 package com.panshi.userservice.domain;
 
 import lombok.Data;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -24,10 +23,6 @@ public class UserDO {
      */
     private String password;
     /**
-     * 支付密码
-     */
-    private String payPassword;
-    /**
      * 手机号
      */
     private String phone;
@@ -39,18 +34,6 @@ public class UserDO {
      * 用户邮箱
      */
     private String email;
-    /**
-     * 用户余额
-     */
-    private BigDecimal balance;
-    /**
-     * 押金
-     */
-    private BigDecimal deposit;
-    /**
-     * 是否开通免密（0：否 1：是）
-     */
-    private String noPassword;
     /**
      * 创建时间
      */
