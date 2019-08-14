@@ -15,4 +15,6 @@ public class ReturnsDTO extends ReturnDTO{
     int code;
 
     String message;
+
+    String billingway;
 }
