@@ -8,7 +8,7 @@ import lombok.Data;
 *@create: 2019/08/14
 */
 @Data
-public class ReturnsDTO extends ReturnDTO{
+public class OutReturnsDTO extends ReturnDTO{
 
     boolean state;
 

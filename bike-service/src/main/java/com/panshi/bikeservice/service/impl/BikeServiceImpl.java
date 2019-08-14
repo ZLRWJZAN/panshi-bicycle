@@ -50,7 +50,7 @@ public class BikeServiceImpl implements BikeService {
      * @return
      */
     @Override
-    public ReturnsDTO deblocking(int userid, int vehicleid) {
+    public OutReturnsDTO deblocking(int userid, int vehicleid) {
         //根据用户id和单车编号进行解锁
 
         //根据单车编号获取数据 得到位置id和单车id
