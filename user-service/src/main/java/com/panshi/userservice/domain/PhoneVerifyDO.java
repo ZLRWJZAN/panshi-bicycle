@@ -12,10 +12,10 @@ import java.util.Date;
 public class PhoneVerifyDO {
 
     //主键id
-    private int id;
+    private Integer id;
 
     //用户id
-    private int userId;
+    private Integer userId;
 
     //手机号
     private String phone;
