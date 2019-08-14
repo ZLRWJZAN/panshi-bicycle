@@ -8,9 +8,10 @@ import lombok.Data;
 *@create: 2019/08/14
 */
 @Data
-public class ReturnDTO {
+public class ReturnDTO<T> {
     int code;
     boolean state;
     String message;
     String type;
+    T data;
 }
