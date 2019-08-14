@@ -15,4 +15,5 @@ public interface BikeMapper {
 
     BikeDTO getBikeNum(int bikeId);
 
+    void updateState(String s);
 }
