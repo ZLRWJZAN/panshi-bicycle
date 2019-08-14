@@ -21,4 +21,5 @@ public interface BikeMapper {
      * @return
      */
     ConfigDo chargeMode();
+    void updateState(String s);
 }
