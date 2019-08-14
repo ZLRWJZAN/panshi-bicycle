@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @description:
+ * @description: 用户属性DO
  * @author: 蒋文豪
  * @create: 2019/08/14
  */

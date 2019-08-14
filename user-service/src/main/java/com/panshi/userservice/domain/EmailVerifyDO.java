@@ -1,7 +1,6 @@
 package com.panshi.userservice.domain;
 
 import lombok.Data;
-
 import java.util.Date;
 
 /**
@@ -10,25 +9,32 @@ import java.util.Date;
  */
 @Data
 public class EmailVerifyDO {
-
-    //主键id
+    /**
+     * 主键id
+     */
     private Integer id;
-
-    //用户id
+    /**
+     * 用户id
+     */
     private Integer userId;
-
-    //手机号
+    /**
+     * 手机号
+     */
     private String email;
-
-    //验证码内容
+    /**
+     * 验证码内容
+     */
     private String message;
-
-    //发送时间
+    /**
+     * 发送时间
+     */
     private Date sendTime;
-
-    //验证码类型
+    /**
+     * 验证码类型
+     */
     private String type;
-
-    //修改时间
+    /**
+     * 修改时间
+     */
     private Date upTime;
 }
