@@ -1,14 +1,27 @@
 package com.panshi.bikeservice.service;
 
+
+import com.panshi.domail.OutReturnsDTO;
+import com.panshi.domail.RegionDTO;
 import com.panshi.domail.ReturnDTO;
-import com.panshi.domail.ReturnsDTO;
+import com.panshi.domail.RideBikeDTO;
+
 
 public interface BikeService {
-    //查询该用户是否有预定
+    /**
+     * 查询该用户是否有预定
+     * @param userid
+     * @return
+     */
     ReturnDTO queryReserve( String userid);
 
-    //解锁
-    ReturnsDTO deblocking(int userid, int vehicleid);
+    /**
+     * 解锁
+     * @param userid
+     * @param vehicleid
+     * @return
+     */
+    OutReturnsDTO deblocking(int userid, int vehicleid);
 
 
     /**
@@ -22,7 +35,7 @@ public interface BikeService {
      * 计费方式
      * @return
      */
-    ConfigDo chargeMode();
+    OutReturnsDTO chargeMode();
 
     /**
      * 用户骑车功能

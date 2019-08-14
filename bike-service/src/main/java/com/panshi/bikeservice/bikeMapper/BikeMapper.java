@@ -1,5 +1,6 @@
 package com.panshi.bikeservice.bikeMapper;
 
+import com.panshi.bikeservice.domain.ConfigDo;
 import com.panshi.domail.BikeDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -15,4 +16,9 @@ public interface BikeMapper {
 
     BikeDTO getBikeNum(int bikeId);
 
+    /**
+     * 计费方式
+     * @return
+     */
+    ConfigDo chargeMode();
 }
