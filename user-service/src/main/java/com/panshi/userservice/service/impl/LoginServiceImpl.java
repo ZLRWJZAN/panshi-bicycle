@@ -35,4 +35,9 @@ public class LoginServiceImpl implements LoginService {
             throw new BusinessException(Message.VERIFY_CODE_ERROR.getCode(),Message.VERIFY_CODE_ERROR.getMsg());
         }
     }
+
+    @Override
+    public void login() {
+
+    }
 }
