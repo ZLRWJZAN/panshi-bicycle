@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.panshi.userservice.mapper.UserMapper">
+
+    <insert id="phoneAddUser">
+        INSERT INTO
+            ofo_user_t
+            ( username, password, phone, email, ps_num, c_time )
+        VALUE
+            ( #{username}, #{password}, #{phone}, #{email}, #{psNum}, NOW() )
+    </insert>
+
+    <insert id="addVerify">
+        INSERT INTO
+            ofo_phone_verify_t
+            ( user_id, phone, message, send_time, type )
+        VALUE
+            ( #{userId}, #{phone}, #{message}, NOW(), #{type} )
+    </insert>
+
+    <select id="findPhone" resultType="com.panshi.userservice.domain.UserDO" parameterType="java.lang.String">
+        SELECT
+            id,
+            phone
+        FROM
+            ofo_user_t
+        WHERE
+            phone = #{value}
+    </select>
+
+    <select id="queryVerify" resultType="com.panshi.userservice.domain.PhoneVerifyDO">
+        SELECT
+            id as id,
+            user_id as userId,
+            phone as phone,
+            type as type,
+            message as message,
+            send_time as sendTime,
+            up_time as upTime
+        FROM
+            ofo_phone_verify_t
+        WHERE
+            phone = #{value}
+        AND send_time > date_sub(sysdate(), INTERVAL 60 SECOND)
+        ORDER BY
+            send_time DESC
+        LIMIT 0,1
+    </select>
+</mapper>
