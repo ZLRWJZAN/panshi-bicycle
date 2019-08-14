@@ -1,13 +1,11 @@
 package com.panshi.bikeservice.service.impl;
 
 import com.panshi.bikeservice.bikeMapper.BikeMapper;
+import com.panshi.bikeservice.bikeMapper.BikeRecordMapper;
 import com.panshi.bikeservice.bikeMapper.ExpiresMapper;
 import com.panshi.bikeservice.bikeMapper.LocationMapper;
 import com.panshi.bikeservice.service.BikeService;
-import com.panshi.domail.BikeDTO;
-import com.panshi.domail.ExpiresDTO;
-import com.panshi.domail.ReturnDTO;
-import com.panshi.domail.ReturnsDTO;
+import com.panshi.domail.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +26,8 @@ public class BikeServiceImpl implements BikeService {
     private LocationMapper lomp;
     @Autowired
     private ExpiresMapper em;
+    @Autowired
+    private BikeRecordMapper brm;
 
     /**
      * 查询该用户是否有预定
@@ -68,13 +68,14 @@ public class BikeServiceImpl implements BikeService {
      */
     @Override
     public ReturnsDTO deblocking(int userid, int vehicleid) {
-        //根据用户id和单车编号进行解锁
-
         //根据单车编号获取数据 得到位置id和单车id
-
-        //插入骑车记录表
-
+        BikeDTO bikeNum = bikeMapper.getBikeNum(vehicleid);
         //修改单车表的状态
+        bikeMapper.updateState("1");
+        //插入骑车记录表
+        BikeRecordDTO bikeRecordDTO=new BikeRecordDTO(userid,vehicleid,bikeNum.getLocationId());
+        brm.createRecord(bikeRecordDTO);
+
 
         return null;
     }
