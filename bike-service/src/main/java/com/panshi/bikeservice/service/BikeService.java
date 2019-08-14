@@ -1,28 +1,13 @@
 package com.panshi.bikeservice.service;
 
-import com.panshi.bikeservice.domain.ConfigDo;
-import com.panshi.domail.RegionDTO;
 import com.panshi.domail.ReturnDTO;
 import com.panshi.domail.ReturnsDTO;
-import com.panshi.domail.RideBikeDTO;
 
 public interface BikeService {
-    /**
-     * 查询该用户是否有预定
-     * @param region
-     * @param userid
-     * @param size
-     * @param page
-     * @return
-     */
-    ReturnDTO queryReserve(String region, String userid,int size,int page);
+    //查询该用户是否有预定
+    ReturnDTO queryReserve( String userid);
 
-    /**
-     * 解锁
-     * @param userid
-     * @param vehicleid
-     * @return
-     */
+    //解锁
     ReturnsDTO deblocking(int userid, int vehicleid);
 
 
