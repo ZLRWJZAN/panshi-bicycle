@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.panshi.userservice.mapper.LoginMapper">
+
+    <!--查询手机号是否存在-->
+    <select id="findPhone" resultType="com.panshi.userservice.domain.UserDO">
+        SELECT
+        id,
+        phone
+        FROM
+        ofo_user_t
+        where phone = #{phone}
+    </select>
+
+    <!--判断验证码是否正确-->
+    <select id="phoneVerify" resultType="com.panshi.userservice.domain.PhoneVerifyDO" parameterType="com.panshi.domail.user.login.inputdto.PhoneVerifyInputDTO">
+        SELECT
+        id,
+        phone,
+        message
+        FROM
+        ofo_phone_verify_t
+        where phone = #{phone} and message =#{verification}
+    </select>
+
+
+</mapper>
