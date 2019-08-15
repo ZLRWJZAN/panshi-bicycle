@@ -7,12 +7,17 @@
     <!--判断验证码是否正确-->
     <select id="phoneVerify" resultType="com.panshi.userservice.domain.PhoneVerifyDO" parameterType="com.panshi.domail.user.login.inputdto.PhoneVerifyInputDTO">
         SELECT
-        id,
-        phone,
-        message
+            id,
+            phone,
+            message
         FROM
-        ofo_phone_verify_t
-        where phone = #{phone} and message =#{verification}
+            ofo_phone_verify_t
+        WHERE
+            phone = #{phone}
+            AND message = #{verification}
+            AND type = 1
+        ORDER BY send_time DESC
+        LIMIT 0,1
     </select>
 
     <!--判断账户是否存在-->
