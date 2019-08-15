@@ -39,7 +39,7 @@ public interface BikeService {
      * @param discount
      * @return
      */
-    OutReturnsDTO bikePay(int userid,String type,int paymentcode,String discount);
+    OutReturnsDTO bikePay(int userid,String type,int paymentcode,float money,String discount);
     /**
      *关锁后支付有优惠券
      * @param userid
@@ -47,7 +47,7 @@ public interface BikeService {
      * @param paymentcode
      * @return
      */
-    OutReturnsDTO bikePay(int userid,String type,int paymentcode);
+    OutReturnsDTO bikePay(int userid,String type,int paymentcode,float money);
     /**
      * 地区查询
      * @param userId 用户名
