@@ -63,6 +63,5 @@ public class UserServiceImpl implements UserService {
         userDO.setPhone(registerDTO.getPhone());
         userDO.setPsNum("ZC"+registerDTO.getPhone());
         userMapper.phoneAddUser(userDO);
-        throw new BusinessException(Message.VERIFY_REGISTER.getCode(),Message.VERIFY_REGISTER.getMsg());
     }
 }
