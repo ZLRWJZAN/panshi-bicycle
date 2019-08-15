@@ -6,6 +6,9 @@ public enum Message {
     VERIFY_REGISTER(200,"注册成功"),
     SEND_VERIFY(200,"发送成功"),
 
+    ACCOUNT_EMPTY(501,"账号不存在"),
+    ACCOUNT_PASSWORD_ERROR(502,"账号密码输入错误"),
+
     PHONE_EMPTY(301,"手机号不存在"),
     VERIFY_CODE_ERROR(302,"验证码错误"),
     PHONE_REGISTER(303,"此手机号已被注册"),
