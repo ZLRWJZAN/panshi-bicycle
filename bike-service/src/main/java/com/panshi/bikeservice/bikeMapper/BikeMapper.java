@@ -1,5 +1,6 @@
 package com.panshi.bikeservice.bikeMapper;
 
+import com.panshi.bikeservice.domain.BikeRecordDo;
 import com.panshi.bikeservice.domain.ConfigDo;
 import com.panshi.domail.BikeDTO;
 import com.panshi.domail.BikeRecordDTO;
@@ -29,10 +30,10 @@ public interface BikeMapper {
     ConfigDo chargeMode();
 
     /**
-     * 用户骑车功能
+     * 骑车中查询信息
      * @param userId
      */
-    void rideBike(Integer userId);
+    BikeRecordDo rideBike(Integer userId);
 
     /**
      * 修改状态

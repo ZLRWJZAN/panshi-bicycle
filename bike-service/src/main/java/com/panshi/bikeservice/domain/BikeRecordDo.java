@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * @description:骑行记录DO
+ * @description:骑行记录表
  * @author：ZLRWJSAN
  * @date 2019/8/15 9:49
  */
@@ -21,4 +21,6 @@ public class BikeRecordDo {
     private Float runKm;
     private Float runCost;
     private Date upTime;
+    private BikeDo bikeDo;
+    private LocationDo locationDo;
 }

@@ -1,5 +1,6 @@
-package com.panshi.domail;
+package com.panshi.domail.outdto;
 
+import com.panshi.domail.ReturnDTO;
 import lombok.Data;
 
 /**
@@ -8,7 +9,7 @@ import lombok.Data;
 *@create: 2019/08/14
 */
 @Data
-public class OutReturnsDTO extends ReturnDTO{
+public class OutReturnsDTO extends ReturnDTO {
 
     boolean state;
 

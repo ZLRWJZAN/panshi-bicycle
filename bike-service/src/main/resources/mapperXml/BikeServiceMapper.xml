@@ -3,6 +3,43 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.panshi.bikeservice.bikeMapper.BikeMapper">
+    <!--骑车中查询信息-->
+    <resultMap id="queryCycling" type="com.panshi.bikeservice.domain.BikeRecordDo">
+        <id property="id" column="id"/>
+        <result property="userId" column="userId"/>
+        <result property="bikeId" column="bikeId"/>
+        <result property="beginId" column="beginId"/>
+        <result property="endId" column="endId"/>
+        <result property="beginTime" column="beginTime"/>
+        <result property="endTime" column="endTime"/>
+        <result property="runKm" column="runKm"/>
+        <result property="runCost" column="runCost"/>
+        <result property="cTime" column="cTime"/>
+        <result property="bikeDo.bikeNum" column="bikeNum"/>
+        <result property="locationDo.location" column="location"/>
+    </resultMap>
+
+    <!--骑车中查询信息-->
+    <select id="rideBike" resultMap="queryCycling">
+        SELECT
+            r.id as id,
+            r.user_id as userId,
+            r.bike_id as bikeId,
+            r.begin_id as beginId,
+            r.end_id as endId,
+            r.begin_time as beginTime,
+            r.end_time as endTime,
+            r.run_km as runKm,
+            r.run_cost as runCost,
+            r.c_time as cTime,
+            b.bike_num as bikeNum,
+            l.location as location
+        FROM
+            ofo_bike_record_t r LEFT JOIN ofo_bike_t b on(r.bike_id=b.id)
+            left JOIN ofo_location_t l on(r.begin_id=l.id)
+        WHERE
+            user_id =#{userId}
+    </select>
 
     <!--计费方式-->
     <select id="chargeMode" resultType="com.panshi.bikeservice.domain.ConfigDo">
@@ -10,9 +47,5 @@
             billingway
         FROM
             ofo_config_t
-    </select>
-
-    <select id="getBikeNum">
-
     </select>
 </mapper>
