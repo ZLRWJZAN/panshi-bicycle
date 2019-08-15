@@ -20,16 +20,6 @@
             ( #{userId}, #{phone}, #{message}, NOW(), #{type} )
     </insert>
 
-    <select id="findPhone" resultType="com.panshi.userservice.domain.UserDO" parameterType="java.lang.String">
-        SELECT
-            id,
-            phone
-        FROM
-            ofo_user_t
-        WHERE
-            phone = #{value}
-    </select>
-
     <select id="queryVerify" resultType="com.panshi.userservice.domain.PhoneVerifyDO">
         SELECT
             id as id,
