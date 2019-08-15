@@ -29,11 +29,12 @@ public class UserServiceImpl implements UserService {
     public void phoneRegister(PhoneRegisterDTO registerDTO){
         //1、判断手机号是否存在
         UserDO userDO = utilMapper.findPhone(registerDTO.getPhone());
+        //存在提示不可注册
         if(userDO.getPhone() != null || userDO.getPhone().equals("")){
             throw new BusinessException(Message.PHONE_REGISTER.getCode(),Message.PHONE_REGISTER.getMsg());
         }
 
-        //2、发送验证码
+        //2、不存在发送验证码
         //生成随机数
         String str="";
         for (int i=0;i<6;i++){
@@ -45,27 +46,25 @@ public class UserServiceImpl implements UserService {
         phoneVerifyDO.setMessage(str);
         phoneVerifyDO.setPhone(registerDTO.getPhone());
         userMapper.addVerify(phoneVerifyDO);
+        throw new BusinessException(Message.SEND_VERIFY.getCode(),Message.SEND_VERIFY.getMsg());
+    }
 
+    @Override
+    public void checkout(PhoneRegisterDTO registerDTO){
         //3、验证码是否正确
         PhoneVerifyDO verifyDO = userMapper.queryVerify(registerDTO.getPhone());
         if(verifyDO == null || verifyDO.equals("")){
             throw new BusinessException(Message.NO_VERIFY.getCode(),Message.NO_VERIFY.getMsg());
         }
-        if(verifyDO.getMessage() != str){
+        if(verifyDO.getMessage() != registerDTO.getVerify()){
             throw new BusinessException(Message.CORRECT_VERIFY.getCode(),Message.CORRECT_VERIFY.getMsg());
         }
 
         //4、注册此用户信息
-        register(registerDTO,userDO.getId());
-        throw new BusinessException(Message.VERIFY_REGISTER.getCode(),Message.VERIFY_REGISTER.getMsg());
-    }
-
-    public void register(PhoneRegisterDTO registerDTO,Integer id){
         UserDO userDO = new UserDO();
-        userDO.setUsername(registerDTO.getUsername());
-        userDO.setPassword(registerDTO.getPassword());
         userDO.setPhone(registerDTO.getPhone());
-        userDO.setPsNum("1000"+id);
+        userDO.setPsNum("ZC"+registerDTO.getPhone());
         userMapper.phoneAddUser(userDO);
+        throw new BusinessException(Message.VERIFY_REGISTER.getCode(),Message.VERIFY_REGISTER.getMsg());
     }
 }

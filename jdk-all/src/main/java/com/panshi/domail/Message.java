@@ -4,6 +4,7 @@ public enum Message {
 
     VERIFY_SUCCEED(200,"登录成功"),
     VERIFY_REGISTER(200,"注册成功"),
+    SEND_VERIFY(200,"发送成功"),
 
     PHONE_EMPTY(301,"手机号不存在"),
     VERIFY_CODE_ERROR(302,"验证码错误"),
