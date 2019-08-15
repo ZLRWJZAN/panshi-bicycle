@@ -1,6 +1,6 @@
 package com.panshi.userservice.service;
 
-import com.panshi.domail.user.register.inputdto.PhoneRegisterDTO;
+import com.panshi.domail.user.login.inputdto.PhoneVerifyInputDTO;
 
 public interface UserService {
     /**
@@ -12,7 +12,7 @@ public interface UserService {
 
     /**
      * 校验验证码并注册
-     * @param registerDTO
+     * @param phoneVerifyInputDTO
      */
-    void checkout(PhoneRegisterDTO registerDTO);
+    void checkout(PhoneVerifyInputDTO phoneVerifyInputDTO);
 }

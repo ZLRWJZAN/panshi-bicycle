@@ -1,7 +1,7 @@
 package com.panshi.userservice.service.impl;
 
 import com.panshi.domail.Message;
-import com.panshi.domail.user.register.inputdto.PhoneRegisterDTO;
+import com.panshi.domail.user.login.inputdto.PhoneVerifyInputDTO;
 import com.panshi.exception.BusinessException;
 import com.panshi.userservice.domain.PhoneVerifyDO;
 import com.panshi.userservice.domain.UserDO;
@@ -48,20 +48,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void checkout(PhoneRegisterDTO registerDTO){
+    public void checkout(PhoneVerifyInputDTO phoneVerifyInputDTO){
         //3、验证码是否正确
-        PhoneVerifyDO verifyDO = userMapper.queryVerify(registerDTO.getPhone());
+        PhoneVerifyDO verifyDO = userMapper.queryVerify(phoneVerifyInputDTO.getPhone());
         if(verifyDO == null){
             throw new BusinessException(Message.NO_VERIFY.getCode(),Message.NO_VERIFY.getMsg());
         }
-        if(!(verifyDO.getMessage().equals(registerDTO.getVerify()))){
+        if(!(verifyDO.getMessage().equals(phoneVerifyInputDTO.getVerification()))){
             throw new BusinessException(Message.CORRECT_VERIFY.getCode(),Message.CORRECT_VERIFY.getMsg());
         }
 
         //4、注册此用户信息
         UserDO userDO = new UserDO();
-        userDO.setPhone(registerDTO.getPhone());
-        userDO.setPsNum("ZC"+registerDTO.getPhone());
+        userDO.setPhone(phoneVerifyInputDTO.getPhone());
+        userDO.setPsNum("ZC"+phoneVerifyInputDTO.getPhone());
         userMapper.phoneAddUser(userDO);
     }
 }
