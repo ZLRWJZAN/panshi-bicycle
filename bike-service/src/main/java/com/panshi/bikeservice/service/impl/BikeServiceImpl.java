@@ -1,7 +1,7 @@
 package com.panshi.bikeservice.service.impl;
 
 import com.panshi.bikeservice.bikeMapper.BikeMapper;
-import com.panshi.bikeservice.domain.BikeDO;
+import com.panshi.bikeservice.domain.BikeDo;
 import com.panshi.bikeservice.domain.BikeRecordDo;
 import com.panshi.bikeservice.domain.ConfigDo;
 import com.panshi.bikeservice.domain.ExpiresDo;
@@ -72,11 +72,20 @@ public class BikeServiceImpl implements BikeService {
      */
     @Override
     public OutReturnsDTO deblocking(int userid, int vehicleid) {
-        //根据用户id和单车编号进行解锁
+        String s = srt.opsForValue().get(userid);
         //根据单车编号获取数据 得到位置id和单车id
-        BikeDO bikeNum = bikeMapper.getBikeNum(vehicleid);
-        //修改单车表的状态
-        bikeMapper.updateState("1");
+        BikeDo bikeNum = bikeMapper.getBikeNum(vehicleid);
+        //判断用户是否预约  为空着不少没有预约
+        if(null==s){
+            //根据用户id和单车编号进行解锁
+            //修改单车表的状态
+            bikeMapper.updateState("1",vehicleid);
+        }else {
+            int i = Integer.parseInt(s);
+            if(i==vehicleid){
+                bikeMapper.updateState("1",i);
+            }
+        }
         //插入骑车记录表
         BikeRecordDo bikeRecordDTO=new BikeRecordDo(userid,vehicleid,bikeNum.getLocationId());
         bikeMapper.createRecord(bikeRecordDTO);
@@ -91,6 +100,7 @@ public class BikeServiceImpl implements BikeService {
      */
     @Override
     public OutReturnsDTO reservation(int userid, int vehicleid) {
+        //预约进入缓存保存15分钟
         srt.opsForValue().set("userid","vehicleid",15,TimeUnit.MINUTES);
         return new OutReturnsDTO(200,true,"预定成功");
     }
@@ -105,6 +115,7 @@ public class BikeServiceImpl implements BikeService {
      */
     @Override
     public OutReturnsDTO bikePay(int userid, String type, int paymentcode, String discount) {
+
         return null;
     }
 
@@ -117,6 +128,7 @@ public class BikeServiceImpl implements BikeService {
      */
     @Override
     public OutReturnsDTO bikePay(int userid, String type, int paymentcode) {
+
         return null;
     }
 

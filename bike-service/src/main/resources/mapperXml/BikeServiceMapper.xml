@@ -48,8 +48,8 @@
         FROM
             ofo_config_t
     </select>
-
-    <select id="getBikeNum" resultType="com.panshi.bikeservice.domain.BikeDO">
+    <!--根据单车编号获得单车对象-->
+    <select id="getBikeNum" resultType="com.panshi.bikeservice.domain.BikeDo">
 
     </select>
 
@@ -57,7 +57,13 @@
 
     </select>
 
+    <!--新增骑车记录表-->
     <insert id="createRecord" parameterType="com.panshi.bikeservice.domain.BikeRecordDo">
 
     </insert>
+
+    <!--修改单车表状态-->
+    <update id="updateState">
+
+    </update>
 </mapper>

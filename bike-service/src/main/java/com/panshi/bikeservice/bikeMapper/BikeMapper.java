@@ -1,12 +1,9 @@
 package com.panshi.bikeservice.bikeMapper;
 
-import com.panshi.bikeservice.domain.BikeDO;
+import com.panshi.bikeservice.domain.BikeDo;
 import com.panshi.bikeservice.domain.BikeRecordDo;
 import com.panshi.bikeservice.domain.ConfigDo;
 import com.panshi.bikeservice.domain.ExpiresDo;
-import com.panshi.domail.BikeDTO;
-import com.panshi.domail.BikeRecordDTO;
-import com.panshi.domail.ExpiresDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -24,7 +21,7 @@ public interface BikeMapper {
      * @param bikeId
      * @return
      */
-    BikeDO getBikeNum(@Param("bikeId") int bikeId);
+    BikeDo getBikeNum(@Param("bikeId") int bikeId);
 
     /**
      * 计费方式
@@ -42,7 +39,7 @@ public interface BikeMapper {
      * 修改状态
      * @param s
      */
-    void updateState(String s);
+    void updateState(String s,int id);
 
     /**
      * 增加骑车记录
