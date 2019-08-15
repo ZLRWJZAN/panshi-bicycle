@@ -21,4 +21,12 @@ public class BikeRecordDo {
     private Float runKm;
     private Float runCost;
     private Date upTime;
+    public BikeRecordDo() {
+    }
+
+    public BikeRecordDo(int userId, int bikeId, int beginId) {
+        this.userId = userId;
+        this.bikeId = bikeId;
+        this.beginId = beginId;
+    }
 }

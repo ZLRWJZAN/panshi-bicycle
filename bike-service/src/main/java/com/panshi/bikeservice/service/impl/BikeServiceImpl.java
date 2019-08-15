@@ -1,14 +1,19 @@
 package com.panshi.bikeservice.service.impl;
 
 import com.panshi.bikeservice.bikeMapper.BikeMapper;
+import com.panshi.bikeservice.domain.BikeDO;
+import com.panshi.bikeservice.domain.BikeRecordDo;
 import com.panshi.bikeservice.domain.ConfigDo;
+import com.panshi.bikeservice.domain.ExpiresDo;
 import com.panshi.bikeservice.service.BikeService;
 import com.panshi.domail.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
 *@description: 单车接口实现类
@@ -19,6 +24,8 @@ import java.util.Date;
 public class BikeServiceImpl implements BikeService {
     @Autowired
     private BikeMapper bikeMapper;
+    @Autowired
+    private StringRedisTemplate srt;
 
     /**
      * 查询该用户是否有预定
@@ -27,8 +34,8 @@ public class BikeServiceImpl implements BikeService {
      */
     @Override
     public ReturnDTO queryReserve(String userid) {
-        //根据用户id  在预约表中获得预约对象
-        ExpiresDTO expires=bikeMapper.getExpiresByUserId(Integer.valueOf(userid));
+       /* //根据用户id  在预约表中获得预约对象
+        ExpiresDo expires = bikeMapper.getExpiresByUserId(Integer.valueOf(userid));
         //判断对象的是否过期
         boolean after =exqTime(expires.getCTime());
         if(!after){
@@ -39,8 +46,12 @@ public class BikeServiceImpl implements BikeService {
         if(expires.equals("1")&&expires==null){
             return new ReturnDTO(300,false,"预约已过期");
         }
-        BikeDTO bike=bikeMapper.getBikeNum(expires.getBikeId());
-        return new ReturnDTO(200,true,"数据查询成功.","1",bike.getBikeNum());
+        BikeDO bikeNum = bikeMapper.getBikeNum(expires.getBikeId());*/
+        String s = srt.opsForValue().get(userid);
+        if(s==null){
+            return new ReturnDTO(300,false,"预约已过期");
+        }
+        return new ReturnDTO(200,true,"数据查询成功.","1",s);
     }
     //判断是否在有效时间
     private boolean exqTime(Date cTime) {
@@ -61,11 +72,11 @@ public class BikeServiceImpl implements BikeService {
     public OutReturnsDTO deblocking(int userid, int vehicleid) {
         //根据用户id和单车编号进行解锁
         //根据单车编号获取数据 得到位置id和单车id
-        BikeDTO bikeNum = bikeMapper.getBikeNum(vehicleid);
+        BikeDO bikeNum = bikeMapper.getBikeNum(vehicleid);
         //修改单车表的状态
         bikeMapper.updateState("1");
         //插入骑车记录表
-        BikeRecordDTO bikeRecordDTO=new BikeRecordDTO(userid,vehicleid,bikeNum.getLocationId());
+        BikeRecordDo bikeRecordDTO=new BikeRecordDo(userid,vehicleid,bikeNum.getLocationId());
         bikeMapper.createRecord(bikeRecordDTO);
         return new OutReturnsDTO(200,true,"解锁成功");
     }
@@ -78,11 +89,8 @@ public class BikeServiceImpl implements BikeService {
      */
     @Override
     public OutReturnsDTO reservation(int userid, int vehicleid) {
-        //vehicleid单车编号  获取单车对象
-        BikeDTO bikeNum = bikeMapper.getBikeNum(vehicleid);
-        //数据插入预约表
-        //修改单车表状态为3和
-        return null;
+        srt.opsForValue().set("userid","vehicleid",15,TimeUnit.MINUTES);
+        return new OutReturnsDTO(200,true,"预定成功");
     }
 
     /**

@@ -12,7 +12,15 @@
             ofo_config_t
     </select>
 
-    <select id="getBikeNum">
+    <select id="getBikeNum" resultType="com.panshi.bikeservice.domain.BikeDO">
 
     </select>
+
+    <select id="getExpiresByUserId" resultType="com.panshi.bikeservice.domain.ExpiresDo">
+
+    </select>
+
+    <insert id="createRecord" parameterType="com.panshi.bikeservice.domain.BikeRecordDo">
+
+    </insert>
 </mapper>
