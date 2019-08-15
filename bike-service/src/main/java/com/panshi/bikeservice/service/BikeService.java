@@ -70,12 +70,13 @@ public interface BikeService {
 
     /**
      * 骑行中上报故障
+     * @param userId 用户id
      * @param vehicleid	车辆编号
      * @param part 故障零件
      * @param remark 备注
      * @return
      */
-    ReturnDTO reportFault(Integer vehicleid,String part,String remark);
+    void reportFault(Integer userId,Integer vehicleid,String part,String remark);
 
     /**
      * 车辆查询

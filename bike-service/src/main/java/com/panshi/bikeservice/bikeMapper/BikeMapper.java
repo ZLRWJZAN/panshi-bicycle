@@ -54,5 +54,12 @@ public interface BikeMapper {
      */
     ExpiresDo getExpiresByUserId(int userid);
 
-
+    /**
+     *  骑行中上报故障
+     * @param vehicleid
+     * @param part
+     * @param remark
+     * @rerurn
+     */
+    int reportFault(Integer userId,Integer vehicleid, String part, String remark);
 }
