@@ -7,9 +7,9 @@
     <insert id="phoneAddUser">
         INSERT INTO
             ofo_user_t
-            ( username, password, phone, email, ps_num, c_time )
+            ( username, password, phone, ps_num, c_time )
         VALUE
-            ( #{username}, #{password}, #{phone}, #{email}, #{psNum}, NOW() )
+            ( #{username}, #{password}, #{phone}, #{psNum}, NOW() )
     </insert>
 
     <insert id="addVerify">
