@@ -4,7 +4,6 @@ import com.panshi.bikeservice.bikeMapper.BikeMapper;
 import com.panshi.bikeservice.domain.BikeDo;
 import com.panshi.bikeservice.domain.BikeRecordDo;
 import com.panshi.bikeservice.domain.ConfigDo;
-import com.panshi.bikeservice.domain.ExpiresDo;
 import com.panshi.bikeservice.service.BikeService;
 import com.panshi.domail.*;
 import com.panshi.domail.outdto.OutReturnsDTO;
@@ -12,6 +11,7 @@ import com.panshi.domail.outdto.OutRideBikeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -94,7 +94,7 @@ public class BikeServiceImpl implements BikeService {
     }
 
     /**
-     *关锁后支付有优惠券
+     * 关锁后支付有优惠券
      * @param userid 用户id
      * @param type 支付类型
      * @param paymentcode 支付密码
@@ -102,7 +102,7 @@ public class BikeServiceImpl implements BikeService {
      * @return
      */
     @Override
-    public OutReturnsDTO bikePay(int userid, String type, int paymentcode, String discount) {
+    public OutReturnsDTO bikePay(int userid, String type, int paymentcode, float money,String discount) {
 
         return null;
     }
@@ -115,8 +115,12 @@ public class BikeServiceImpl implements BikeService {
      * @return
      */
     @Override
-    public OutReturnsDTO bikePay(int userid, String type, int paymentcode) {
+    public OutReturnsDTO bikePay(int userid, String type, int paymentcode,float money) {
+        //判断用户的支付密码是否一致
 
+        //判断类型
+        //扣除用户金额
+        //增加金额流水记录
         return null;
     }
 

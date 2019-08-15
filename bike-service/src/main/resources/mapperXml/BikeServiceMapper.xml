@@ -61,17 +61,13 @@
         where  bikeNum=#{bikeId}
     </select>
 
-    <select id="getExpiresByUserId" resultType="com.panshi.bikeservice.domain.ExpiresDo">
-
-    </select>
-
     <!--新增骑车记录表-->
     <insert id="createRecord" parameterType="com.panshi.bikeservice.domain.BikeRecordDo">
-
+        insert into ofo_bike_record_t (user_id,bike_id,begin_id,begin_time) values (#{userId},#{bikeId},#{beginId},now())
     </insert>
 
     <!--修改单车表状态-->
     <update id="updateState">
-
+        update ofo_bike_t set bike_state=#{state} where bike_num=#{vid}
     </update>
 </mapper>

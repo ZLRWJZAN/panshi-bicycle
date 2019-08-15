@@ -39,7 +39,7 @@ public interface BikeMapper {
      * 修改状态
      * @param s
      */
-    void updateState(String s,int id);
+    void updateState(@Param("s")String state,@Param("vehicleid")int vid);
 
     /**
      * 增加骑车记录
@@ -47,12 +47,6 @@ public interface BikeMapper {
      */
     void createRecord(BikeRecordDo bikeRecordDTO);
 
-    /**
-     * 根据userid 获得预约对象
-     * @param userid
-     * @return
-     */
-    ExpiresDo getExpiresByUserId(int userid);
 
 
 }
