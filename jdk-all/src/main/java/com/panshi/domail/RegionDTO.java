@@ -12,4 +12,12 @@ public class RegionDTO extends ReturnDTO {
     boolean state;
     String message;
     String region;
+
+    public RegionDTO(int code, boolean state, String message, String region) {
+        this.code=code;
+        this.state=state;
+        this.message=message;
+        this.region=region;
+    }
+    public RegionDTO() {}
 }

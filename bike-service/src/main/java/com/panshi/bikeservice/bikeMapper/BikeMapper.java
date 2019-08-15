@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 
+import java.util.List;
+
 /**
  * @author：ZLRWJSAN
  * @date 2019/8/14 9:50
@@ -92,4 +94,11 @@ public interface BikeMapper {
      * @return
      */
     int addMoneyWater(Integer userId, BigDecimal money, String type);
+
+    //获取全部地区
+    List<LocationDo> getAllRegion();
+    //根据location获得对象
+    LocationDo getlocationByLocation(@Param("location") String location);
+    //获取当前地区的全部单车
+    List<BikeDo> getBikeBylocationid(@Param("id")Integer id,@Param("size") Integer size, @Param("page")Integer page);
 }

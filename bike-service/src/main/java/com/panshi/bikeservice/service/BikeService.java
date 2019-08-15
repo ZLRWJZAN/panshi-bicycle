@@ -46,10 +46,9 @@ public interface BikeService {
 
     /**
      * 地区查询
-     * @param userId 用户名
-     * @return
+     * @return 地区集合
      */
-    RegionDTO regionQuery(Integer userId);
+    RegionDTO regionQuery();
 
     /**
      * 计费方式

@@ -1,10 +1,7 @@
 package com.panshi.bikeservice.service.impl;
 
 import com.panshi.bikeservice.bikeMapper.BikeMapper;
-import com.panshi.bikeservice.domain.AccountDo;
-import com.panshi.bikeservice.domain.BikeDo;
-import com.panshi.bikeservice.domain.BikeRecordDo;
-import com.panshi.bikeservice.domain.ConfigDo;
+import com.panshi.bikeservice.domain.*;
 import com.panshi.bikeservice.service.BikeService;
 import com.panshi.domail.*;
 import com.panshi.domail.outdto.OutReturnsDTO;
@@ -14,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.plugin2.message.Message;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -159,6 +158,15 @@ public class BikeServiceImpl implements BikeService {
     @Override
     public RegionDTO regionQuery(Integer userId) {
         return null;
+    public RegionDTO regionQuery() {
+        //使用redis进行缓存
+        String region = srt.opsForValue().get("region");
+        if("".equals(region)){
+            List<LocationDo> list=bikeMapper.getAllRegion();
+            region=list.toString();
+            srt.opsForValue().set("region",region,300,TimeUnit.SECONDS);
+        }
+        return new RegionDTO(200,true,"地区查询成功",region);
     }
 
     /**
@@ -214,8 +222,24 @@ public class BikeServiceImpl implements BikeService {
         }
     }
 
+    /**
+     *车辆查询
+     * @param region 地区名称
+     * @param size 当前页显示条数
+     * @param page 当前页数
+     * @return
+     */
     @Override
     public OutRideBikeDTO queryVehicle(String region, Integer size, Integer page) {
-        return null;
+        //根据地区获取地区id
+        LocationDo locationDo=bikeMapper.getlocationByLocation(region);
+        //地区id获取当前全部单车
+        List<BikeDo> list=bikeMapper.getBikeBylocationid(locationDo.getId(),size,page);
+        OutRideBikeDTO outRideBikeDTO = new OutRideBikeDTO();
+        outRideBikeDTO.setCode(200);
+        outRideBikeDTO.setState(true);
+        outRideBikeDTO.setMessage("数据查询成功");
+        outRideBikeDTO.setData(list);
+        return outRideBikeDTO;
     }
 }
