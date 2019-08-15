@@ -14,7 +14,6 @@ public interface UserMapper {
      */
     void phoneAddUser(UserDO userDO);
 
-
     /**
      * 注册发送手机验证码
      * @param phoneVerifyDO
