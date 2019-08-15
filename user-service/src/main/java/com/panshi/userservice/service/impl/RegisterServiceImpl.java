@@ -26,23 +26,39 @@ public class RegisterServiceImpl implements RegisterService {
     @Autowired
     private UtilMapper utilMapper;
 
+    /**
+     * 判断手机号是否存在
+     * @param phoneVerifyInputDTO
+     */
     @Override
-    public void phoneVerify(PhoneVerifyInputDTO phoneVerifyInputDTO){
+    public void phoneRegister(PhoneVerifyInputDTO phoneVerifyInputDTO){
         //1、判断手机号是否存在
         UserDO userDO = utilMapper.findPhone(phoneVerifyInputDTO.getPhone());
         //存在提示不可注册
-        if(null != userDO){
+        if(userDO != null ){
             throw new BusinessException(Message.PHONE_REGISTER.getCode(),Message.PHONE_REGISTER.getMsg());
         }
-
-        //2、不存在发送验证码
-        PhoneVerifyDO phoneVerifyDO = new PhoneVerifyDO();
-        phoneVerifyDO.setType("1");
-        phoneVerifyDO.setMessage(phoneVerifyInputDTO.getVerification());
-        phoneVerifyDO.setPhone(phoneVerifyInputDTO.getPhone());
-        registerMapper.addVerify(phoneVerifyDO);
     }
 
+    /**
+     * 验证码表增加数据
+     * @param code
+     * @param phone
+     * @return
+     */
+    @Override
+    public int addVerifyCode(String code,String phone){
+        PhoneVerifyDO phoneVerifyDO = new PhoneVerifyDO();
+        phoneVerifyDO.setType("1");
+        phoneVerifyDO.setMessage(code);
+        phoneVerifyDO.setPhone(phone);
+        return registerMapper.addVerify(phoneVerifyDO);
+    }
+
+    /**
+     * 判断验证码是否正确
+     * @param phoneVerifyInputDTO
+     */
     @Override
     public void checkout(PhoneVerifyInputDTO phoneVerifyInputDTO){
         //3、验证码是否正确
@@ -55,14 +71,18 @@ public class RegisterServiceImpl implements RegisterService {
         }
     }
 
+    /**
+     * 用户注册
+     * @param phoneRegisterInputDTO
+     */
     @Override
-    public void phoneRegister(PhoneRegisterInputDTO phoneRegisterInputDTO){
+    public void phoneRegister(PhoneRegisterInputDTO phoneRegisterInputDTO) {
         //4、注册此用户信息
         UserDO userDO = new UserDO();
         userDO.setPhone(phoneRegisterInputDTO.getPhone());
+        userDO.setPsNum("ZC"+phoneRegisterInputDTO.getPhone());
         userDO.setUsername(phoneRegisterInputDTO.getUsername());
         userDO.setPassword(phoneRegisterInputDTO.getPassword());
-        userDO.setPsNum("ZC"+phoneRegisterInputDTO.getPhone());
         registerMapper.phoneAddUser(userDO);
     }
 }
