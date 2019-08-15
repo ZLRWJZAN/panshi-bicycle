@@ -7,6 +7,8 @@ import com.panshi.bikeservice.domain.ConfigDo;
 import com.panshi.bikeservice.domain.ExpiresDo;
 import com.panshi.bikeservice.service.BikeService;
 import com.panshi.domail.*;
+import com.panshi.domail.outdto.OutReturnsDTO;
+import com.panshi.domail.outdto.OutRideBikeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -140,14 +142,18 @@ public class BikeServiceImpl implements BikeService {
     }
 
     /**
-     * 用户骑车功能
+     * 骑车中查询信息
      * @param userId 用户名
      * @return
      */
     @Override
-    public RideBikeDTO rideBike(Integer userId) {
-        bikeMapper.rideBike(userId);
-        return null;
+    public OutRideBikeDTO rideBike(Integer userId) {
+        BikeRecordDo bikeRecordDo = bikeMapper.rideBike(userId);
+        OutRideBikeDTO rideBikeDTO = new OutRideBikeDTO();
+        rideBikeDTO.setVehicleid(bikeRecordDo.getBikeDo().getBikeNum());
+        rideBikeDTO.setVefubtime(bikeRecordDo.getBeginTime());
+        rideBikeDTO.setRegion(bikeRecordDo.getLocationDo().getLocation());
+        return rideBikeDTO;
     }
 
     @Override
@@ -156,7 +162,7 @@ public class BikeServiceImpl implements BikeService {
     }
 
     @Override
-    public RideBikeDTO queryVehicle(String region, Integer size, Integer page) {
+    public OutRideBikeDTO queryVehicle(String region, Integer size, Integer page) {
         return null;
     }
 }

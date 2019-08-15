@@ -1,5 +1,6 @@
-package com.panshi.domail;
+package com.panshi.domail.outdto;
 
+import com.panshi.domail.ReturnDTO;
 import lombok.Data;
 
 import java.util.Date;
@@ -9,7 +10,7 @@ import java.util.Date;
  * @date 2019/8/14 15:15
  */
 @Data
-public class RideBikeDTO extends ReturnDTO {
+public class OutRideBikeDTO extends ReturnDTO {
     Integer code;
     boolean state;
     String message;

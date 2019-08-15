@@ -1,11 +1,10 @@
 package com.panshi.bikeservice.service;
 
 
-import com.panshi.domail.OutReturnsDTO;
 import com.panshi.domail.RegionDTO;
 import com.panshi.domail.ReturnDTO;
-import com.panshi.domail.OutReturnsDTO;
-import com.panshi.domail.RideBikeDTO;
+import com.panshi.domail.outdto.OutReturnsDTO;
+import com.panshi.domail.outdto.OutRideBikeDTO;
 
 
 public interface BikeService {
@@ -67,7 +66,7 @@ public interface BikeService {
      * @param userId 用户名
      * @return
      */
-    RideBikeDTO rideBike(Integer userId);
+    OutRideBikeDTO rideBike(Integer userId);
 
     /**
      * 骑行中上报故障
@@ -85,5 +84,5 @@ public interface BikeService {
      * @param page 当前页数
      * @return
      */
-    RideBikeDTO queryVehicle(String region,Integer size,Integer page);
+    OutRideBikeDTO queryVehicle(String region,Integer size,Integer page);
 }
