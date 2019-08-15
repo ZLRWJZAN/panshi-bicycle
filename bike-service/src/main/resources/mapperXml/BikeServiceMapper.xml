@@ -70,4 +70,13 @@
     <update id="updateState">
         update ofo_bike_t set bike_state=#{state} where bike_num=#{vid}
     </update>
+    <!--获取全部地区-->
+    <select id="getAllRegion" resultType="com.panshi.bikeservice.domain.LocationDo">
+        select
+        id,
+        location,
+        c_time as cTime,
+        up_time as upTime
+        from ofo_location_t
+    </select>
 </mapper>

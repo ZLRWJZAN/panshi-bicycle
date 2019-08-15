@@ -4,6 +4,7 @@ import com.panshi.bikeservice.bikeMapper.BikeMapper;
 import com.panshi.bikeservice.domain.BikeDo;
 import com.panshi.bikeservice.domain.BikeRecordDo;
 import com.panshi.bikeservice.domain.ConfigDo;
+import com.panshi.bikeservice.domain.LocationDo;
 import com.panshi.bikeservice.service.BikeService;
 import com.panshi.domail.*;
 import com.panshi.domail.outdto.OutReturnsDTO;
@@ -13,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.plugin2.message.Message;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -108,26 +111,21 @@ public class BikeServiceImpl implements BikeService {
         return null;
     }
 
+
     /**
-     * 关锁后支付无有优惠券
-     * @param userid 用户id
-     * @param type 支付类型
-     * @param paymentcode 支付密码
+     *地区查询
      * @return
      */
     @Override
-    public OutReturnsDTO bikePay(int userid, String type, int paymentcode,float money) {
-        //判断用户的支付密码是否一致
-
-        //判断类型
-        //扣除用户金额
-        //增加金额流水记录
-        return null;
-    }
-
-    @Override
-    public RegionDTO regionQuery(Integer userId) {
-        return null;
+    public RegionDTO regionQuery() {
+        //使用redis进行缓存
+        String region = srt.opsForValue().get("region");
+        if("".equals(region)){
+            List<LocationDo> list=bikeMapper.getAllRegion();
+            region=list.toString();
+            srt.opsForValue().set("region",region,300,TimeUnit.SECONDS);
+        }
+        return new RegionDTO(200,true,"地区查询成功",region);
     }
 
     /**
@@ -183,8 +181,18 @@ public class BikeServiceImpl implements BikeService {
         }
     }
 
+    /**
+     *车辆查询
+     * @param region 地区名称
+     * @param size 当前页显示条数
+     * @param page 当前页数
+     * @return
+     */
     @Override
     public OutRideBikeDTO queryVehicle(String region, Integer size, Integer page) {
+        //根据地区获取地区id
+        //地区id获取当前全部单车
+
         return null;
     }
 }

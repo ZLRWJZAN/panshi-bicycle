@@ -40,20 +40,12 @@ public interface BikeService {
      * @return
      */
     OutReturnsDTO bikePay(int userid,String type,int paymentcode,float money,String discount);
-    /**
-     *关锁后支付有优惠券
-     * @param userid
-     * @param type
-     * @param paymentcode
-     * @return
-     */
-    OutReturnsDTO bikePay(int userid,String type,int paymentcode,float money);
+
     /**
      * 地区查询
-     * @param userId 用户名
-     * @return
+     * @return 地区集合
      */
-    RegionDTO regionQuery(Integer userId);
+    RegionDTO regionQuery();
 
     /**
      * 计费方式

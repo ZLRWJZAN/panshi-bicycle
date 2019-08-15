@@ -1,12 +1,11 @@
 package com.panshi.bikeservice.bikeMapper;
 
-import com.panshi.bikeservice.domain.BikeDo;
-import com.panshi.bikeservice.domain.BikeRecordDo;
-import com.panshi.bikeservice.domain.ConfigDo;
-import com.panshi.bikeservice.domain.ExpiresDo;
+import com.panshi.bikeservice.domain.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author：ZLRWJSAN
@@ -56,4 +55,7 @@ public interface BikeMapper {
      * @rerurn
      */
     int reportFault(Integer userId,Integer vehicleid, String part, String remark);
+
+    //获取全部地区
+    List<LocationDo> getAllRegion();
 }
