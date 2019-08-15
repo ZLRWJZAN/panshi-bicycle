@@ -76,7 +76,7 @@ public class SendVerfiyServiceImpl implements SendVerifyService {
      * @return
      */
     @Override
-    public String sendMailboxVerifynCode(String code,String email) {
+    public String sendMailboxVerifynCode(String code,String mailbox) {
 
         // 属性
         Properties properties = new Properties();
@@ -105,7 +105,7 @@ public class SendVerfiyServiceImpl implements SendVerifyService {
             // 传输连接：host，port，user，pass/主机，端口，用户名，密码
             transport.connect( "smtp.qq.com", 25, "1094856904@qq.com", "ughfmwotobeobaai" );
             // 发送邮件
-            transport.sendMessage( message, new Address[]{new InternetAddress(email)} );
+            transport.sendMessage( message, new Address[]{new InternetAddress(mailbox)} );
         } catch (MessagingException e) {
         }
         return code;

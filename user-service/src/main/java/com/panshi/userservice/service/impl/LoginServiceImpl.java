@@ -22,7 +22,7 @@ public class LoginServiceImpl implements LoginService {
     private UtilMapper utilMapper;
 
     /**
-     * 手机验证
+     * 手机验证登录
      * @param phoneVerifyInputDTO
      */
     @Override

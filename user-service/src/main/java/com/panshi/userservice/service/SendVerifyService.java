@@ -19,5 +19,5 @@ public interface SendVerifyService {
      * 发送邮箱验证码
      * @return
      */
-    String sendMailboxVerifynCode(String code,String email);
+    String sendMailboxVerifynCode(String code,String mailbox);
 }
