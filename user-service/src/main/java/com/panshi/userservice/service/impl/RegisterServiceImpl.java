@@ -5,9 +5,9 @@ import com.panshi.domail.user.login.inputdto.PhoneVerifyInputDTO;
 import com.panshi.exception.BusinessException;
 import com.panshi.userservice.domain.PhoneVerifyDO;
 import com.panshi.userservice.domain.UserDO;
-import com.panshi.userservice.mapper.UserMapper;
+import com.panshi.userservice.mapper.RegisterMapper;
 import com.panshi.userservice.mapper.UtilMapper;
-import com.panshi.userservice.service.UserService;
+import com.panshi.userservice.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +17,10 @@ import org.springframework.stereotype.Service;
  * @create: 2019/08/14
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class RegisterServiceImpl implements RegisterService {
 
     @Autowired
-    private UserMapper userMapper;
+    private RegisterMapper registerMapper;
 
     @Autowired
     private UtilMapper utilMapper;
@@ -44,13 +44,13 @@ public class UserServiceImpl implements UserService {
         phoneVerifyDO.setType("1");
         phoneVerifyDO.setMessage(str);
         phoneVerifyDO.setPhone(phone);
-        userMapper.addVerify(phoneVerifyDO);
+        registerMapper.addVerify(phoneVerifyDO);
     }
 
     @Override
     public void checkout(PhoneVerifyInputDTO phoneVerifyInputDTO){
         //3、验证码是否正确
-        PhoneVerifyDO verifyDO = userMapper.queryVerify(phoneVerifyInputDTO.getPhone());
+        PhoneVerifyDO verifyDO = registerMapper.queryVerify(phoneVerifyInputDTO.getPhone());
         if(verifyDO == null){
             throw new BusinessException(Message.NO_VERIFY.getCode(),Message.NO_VERIFY.getMsg());
         }
@@ -62,6 +62,6 @@ public class UserServiceImpl implements UserService {
         UserDO userDO = new UserDO();
         userDO.setPhone(phoneVerifyInputDTO.getPhone());
         userDO.setPsNum("ZC"+phoneVerifyInputDTO.getPhone());
-        userMapper.phoneAddUser(userDO);
+        registerMapper.phoneAddUser(userDO);
     }
 }

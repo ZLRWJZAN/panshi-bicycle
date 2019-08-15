@@ -2,7 +2,7 @@ package com.panshi.userservice.service;
 
 import com.panshi.domail.user.login.inputdto.PhoneVerifyInputDTO;
 
-public interface UserService {
+public interface RegisterService {
     /**
      * 验证手机是否存在并发送短信
      * @param phone
