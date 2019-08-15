@@ -1,5 +1,6 @@
 package com.panshi.userservice.service;
 
+import com.panshi.domail.user.login.inputdto.LoginInputDTO;
 import com.panshi.domail.user.login.inputdto.PhoneVerifyInputDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,5 +18,5 @@ public interface LoginService {
     /**
      * 账号密码登录
      */
-    void login();
+    void login(LoginInputDTO loginInputDTO);
 }

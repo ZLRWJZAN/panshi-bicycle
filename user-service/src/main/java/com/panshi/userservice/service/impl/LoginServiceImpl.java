@@ -1,6 +1,7 @@
 package com.panshi.userservice.service.impl;
 
 import com.panshi.domail.Message;
+import com.panshi.domail.user.login.inputdto.LoginInputDTO;
 import com.panshi.domail.user.login.inputdto.PhoneVerifyInputDTO;
 import com.panshi.exception.BusinessException;
 import com.panshi.userservice.domain.PhoneVerifyDO;
@@ -40,8 +41,26 @@ public class LoginServiceImpl implements LoginService {
         }
     }
 
+    /**
+     * 账号密码登录
+     * @param loginInputDTO
+     */
     @Override
-    public void login() {
+    public void login(LoginInputDTO loginInputDTO) {
+        //判断账号是否存在
+        UserDO boolAccount = loginMapper.findAccount(loginInputDTO.getUsername());
 
+        //如果为空 则说明账号不存在
+        if (boolAccount == null){
+            throw new BusinessException(Message.ACCOUNT_EMPTY.getCode(),Message.ACCOUNT_EMPTY.getMsg());
+        }
+
+        //验证账号密码是否正确
+        UserDO user = loginMapper.loginVerify(loginInputDTO);
+
+        //如果为空则说明账号密码不正确
+        if (user == null){
+            throw  new BusinessException(Message.ACCOUNT_PASSWORD_ERROR.getCode(),Message.ACCOUNT_PASSWORD_ERROR.getMsg());
+        }
     }
 }
