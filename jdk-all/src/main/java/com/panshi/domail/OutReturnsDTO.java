@@ -7,7 +7,7 @@ import lombok.Data;
 *@author: 邓俊豪
 *@create: 2019/08/14
 */
-@Data
+
 public class OutReturnsDTO extends ReturnDTO{
 
     boolean state;
@@ -17,4 +17,8 @@ public class OutReturnsDTO extends ReturnDTO{
     String message;
 
     String billingway;
+
+    public OutReturnsDTO(int i, boolean b, String message) {
+        super(i, b, message);
+    }
 }
