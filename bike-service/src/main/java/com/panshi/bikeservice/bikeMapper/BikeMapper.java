@@ -21,5 +21,12 @@ public interface BikeMapper {
      * @return
      */
     ConfigDo chargeMode();
+
+    /**
+     * 用户骑车功能
+     * @param userId
+     */
+    void rideBike(Integer userId);
+
     void updateState(String s);
 }

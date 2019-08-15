@@ -3,6 +3,7 @@ package com.panshi.bikeservice.service.impl;
 import com.panshi.bikeservice.bikeMapper.BikeMapper;
 import com.panshi.bikeservice.bikeMapper.ExpiresMapper;
 import com.panshi.bikeservice.bikeMapper.LocationMapper;
+import com.panshi.bikeservice.domain.ConfigDo;
 import com.panshi.bikeservice.service.BikeService;
 import com.panshi.domail.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,13 +68,30 @@ public class BikeServiceImpl implements BikeService {
         return null;
     }
 
+    /**
+     * 查询计费方式
+     * @return
+     */
     @Override
     public OutReturnsDTO chargeMode() {
-        return null;
+
+        ConfigDo configDo = bikeMapper.chargeMode();
+
+        OutReturnsDTO outReturnsDTO = new OutReturnsDTO();
+
+        outReturnsDTO.setBillingway(configDo.getBillingway());
+
+        return outReturnsDTO;
     }
 
+    /**
+     * 用户骑车功能
+     * @param userId 用户名
+     * @return
+     */
     @Override
     public RideBikeDTO rideBike(Integer userId) {
+        bikeMapper.rideBike(userId);
         return null;
     }
 

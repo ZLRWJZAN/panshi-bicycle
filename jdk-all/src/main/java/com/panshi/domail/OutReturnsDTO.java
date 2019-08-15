@@ -16,5 +16,5 @@ public class OutReturnsDTO extends ReturnDTO{
 
     String message;
 
-    String billingway;
+    private String billingway;
 }

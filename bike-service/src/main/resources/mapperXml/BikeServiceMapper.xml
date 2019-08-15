@@ -11,4 +11,8 @@
         FROM
             ofo_config_t
     </select>
+
+    <select id="">
+
+    </select>
 </mapper>
