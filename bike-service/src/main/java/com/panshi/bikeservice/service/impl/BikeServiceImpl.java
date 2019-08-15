@@ -1,7 +1,6 @@
 package com.panshi.bikeservice.service.impl;
 
 import com.panshi.bikeservice.bikeMapper.BikeMapper;
-import com.panshi.bikeservice.bikeMapper.BikeRecordMapper;
 import com.panshi.bikeservice.domain.ConfigDo;
 import com.panshi.bikeservice.service.BikeService;
 import com.panshi.domail.*;
@@ -20,8 +19,6 @@ import java.util.Date;
 public class BikeServiceImpl implements BikeService {
     @Autowired
     private BikeMapper bikeMapper;
-    @Autowired
-    private BikeRecordMapper brm;
 
     /**
      * 查询该用户是否有预定
@@ -31,7 +28,7 @@ public class BikeServiceImpl implements BikeService {
     @Override
     public ReturnDTO queryReserve(String userid) {
         //根据用户id  在预约表中获得预约对象
-        ExpiresDTO expires=brm.getExpiresByUserId(Integer.valueOf(userid));
+        ExpiresDTO expires=bikeMapper.getExpiresByUserId(Integer.valueOf(userid));
         //判断对象的是否过期
         boolean after =exqTime(expires.getCTime());
         if(!after){
@@ -64,12 +61,12 @@ public class BikeServiceImpl implements BikeService {
     public OutReturnsDTO deblocking(int userid, int vehicleid) {
         //根据用户id和单车编号进行解锁
         //根据单车编号获取数据 得到位置id和单车id
-        BikeDTO bikeNum = brm.getBikeNum(vehicleid);
+        BikeDTO bikeNum = bikeMapper.getBikeNum(vehicleid);
         //修改单车表的状态
-        brm.updateState("1");
+        bikeMapper.updateState("1");
         //插入骑车记录表
         BikeRecordDTO bikeRecordDTO=new BikeRecordDTO(userid,vehicleid,bikeNum.getLocationId());
-        brm.createRecord(bikeRecordDTO);
+        bikeMapper.createRecord(bikeRecordDTO);
         return new OutReturnsDTO(200,true,"解锁成功");
     }
 
@@ -82,7 +79,7 @@ public class BikeServiceImpl implements BikeService {
     @Override
     public OutReturnsDTO reservation(int userid, int vehicleid) {
         //vehicleid单车编号  获取单车对象
-        BikeDTO bikeNum = brm.getBikeNum(vehicleid);
+        BikeDTO bikeNum = bikeMapper.getBikeNum(vehicleid);
         //数据插入预约表
         //修改单车表状态为3和
         return null;

@@ -12,7 +12,7 @@
             ofo_config_t
     </select>
 
-    <select id="">
+    <select id="getBikeNum">
 
     </select>
 </mapper>

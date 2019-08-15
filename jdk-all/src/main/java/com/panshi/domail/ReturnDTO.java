@@ -28,4 +28,5 @@ public class ReturnDTO<T> {
         this.state = state;
         this.message = message;
     }
+    public ReturnDTO(){}
 }

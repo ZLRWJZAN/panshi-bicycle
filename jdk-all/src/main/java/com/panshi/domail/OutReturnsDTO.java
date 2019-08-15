@@ -21,4 +21,5 @@ public class OutReturnsDTO extends ReturnDTO{
     public OutReturnsDTO(int i, boolean b, String message) {
         super(i, b, message);
     }
+    public OutReturnsDTO(){}
 }
