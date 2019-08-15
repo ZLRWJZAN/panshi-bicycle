@@ -10,7 +10,7 @@ import java.util.Date;
 *@create: 2019/08/15
 */
 @Data
-public class BikeDO {
+public class BikeDo {
     Integer id;
     Integer locationId;
     Integer bikeNum;

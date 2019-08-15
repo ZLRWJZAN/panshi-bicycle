@@ -33,7 +33,7 @@ public interface BikeMapper {
      * 用户骑车功能
      * @param userId
      */
-    void rideBike(Integer userId);
+    BikeRecordDo rideBike(Integer userId);
 
     /**
      * 修改状态

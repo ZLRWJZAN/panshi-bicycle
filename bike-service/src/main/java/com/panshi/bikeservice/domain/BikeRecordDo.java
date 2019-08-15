@@ -21,6 +21,8 @@ public class BikeRecordDo {
     private Float runKm;
     private Float runCost;
     private Date upTime;
+    private BikeDo bikeDo;
+    private LocationDo locationDo;
 
     public BikeRecordDo() {
     }
