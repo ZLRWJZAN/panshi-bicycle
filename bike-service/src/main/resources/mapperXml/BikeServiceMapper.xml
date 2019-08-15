@@ -50,7 +50,15 @@
     </select>
     <!--根据单车编号获得单车对象-->
     <select id="getBikeNum" resultType="com.panshi.bikeservice.domain.BikeDo">
-
+        select id,
+        location_id as locationId,
+        bike_num as bikeNum,
+        bike_state as bikeState,
+        c_time as cTime,
+        up_time as upTime
+        from
+            ofo_bike_t
+        where  bikeNum=#{bikeId}
     </select>
 
     <select id="getExpiresByUserId" resultType="com.panshi.bikeservice.domain.ExpiresDo">
