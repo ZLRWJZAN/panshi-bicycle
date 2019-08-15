@@ -191,8 +191,14 @@ public class BikeServiceImpl implements BikeService {
     @Override
     public OutRideBikeDTO queryVehicle(String region, Integer size, Integer page) {
         //根据地区获取地区id
+        LocationDo locationDo=bikeMapper.getlocationByLocation(region);
         //地区id获取当前全部单车
-
-        return null;
+        List<BikeDo> list=bikeMapper.getBikeBylocationid(locationDo.getId(),size,page);
+        OutRideBikeDTO outRideBikeDTO = new OutRideBikeDTO();
+        outRideBikeDTO.setCode(200);
+        outRideBikeDTO.setState(true);
+        outRideBikeDTO.setMessage("数据查询成功");
+        outRideBikeDTO.setData(list);
+        return outRideBikeDTO;
     }
 }

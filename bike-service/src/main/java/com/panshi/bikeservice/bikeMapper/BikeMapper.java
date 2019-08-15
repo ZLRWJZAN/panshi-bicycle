@@ -58,4 +58,8 @@ public interface BikeMapper {
 
     //获取全部地区
     List<LocationDo> getAllRegion();
+    //根据location获得对象
+    LocationDo getlocationByLocation(@Param("location") String location);
+    //获取当前地区的全部单车
+    List<BikeDo> getBikeBylocationid(@Param("id")Integer id,@Param("size") Integer size, @Param("page")Integer page);
 }
