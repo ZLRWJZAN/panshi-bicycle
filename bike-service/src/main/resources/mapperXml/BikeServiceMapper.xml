@@ -48,6 +48,14 @@
         FROM
             ofo_config_t
     </select>
+
+    <!--骑行中上报故障-->
+    <insert id="reportFault">
+        INSERT INTO ofo_fault_record_t ( user_id, bick_id, c_time, fault_type, remark )
+        VALUES
+            (#{userId},#{bickId},now(),#{vehicleid},#{part},#{remark});
+    </insert>
+
     <!--根据单车编号获得单车对象-->
     <select id="getBikeNum" resultType="com.panshi.bikeservice.domain.BikeDo">
         select id,
@@ -70,4 +78,35 @@
     <update id="updateState">
         update ofo_bike_t set bike_state=#{state} where bike_num=#{vid}
     </update>
+
+    <!--查询支付密码-->
+    <select id="queryPayPassword" resultType="com.panshi.bikeservice.domain.AccountDo">
+        select id,
+        balance,
+        deposit,
+        no_password as noPassword,
+        pay_password as payPassword,
+        c_time as cTime,
+        up_time as upTime
+        from
+            ofo_account_t
+        where  user_id=#{userId}
+        and no_password=#{paymentcode}
+    </select>
+
+    <!--扣钱-->
+    <update id="deleteMoney">
+        UPDATE ofo_account_t
+        SET balance = balance-#{money},
+        up_time = now()
+        WHERE
+            user_id =#{userId}
+    </update>
+
+    <!--增加金额流水记录-->
+    <insert id="addMoneyWater">
+        INSERT INTO ofo_money_t ( user_id,money,c_time,payment_id,in_out)
+        VALUES
+            (#{userId},#{money},now(),(select id from ofo_payment_t where type=#{type}),1);
+    </insert>
 </mapper>

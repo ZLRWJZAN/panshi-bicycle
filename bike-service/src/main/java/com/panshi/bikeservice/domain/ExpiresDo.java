@@ -2,6 +2,7 @@ package com.panshi.bikeservice.domain;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
 *@create: 2019/08/15
 */
 @Data
-public class ExpiresDo {
+public class ExpiresDo implements Serializable {
     private int id;
     private int userId;
     private int bikeId;

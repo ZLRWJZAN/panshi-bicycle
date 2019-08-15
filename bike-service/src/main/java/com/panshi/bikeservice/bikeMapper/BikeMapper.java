@@ -1,12 +1,11 @@
 package com.panshi.bikeservice.bikeMapper;
 
-import com.panshi.bikeservice.domain.BikeDo;
-import com.panshi.bikeservice.domain.BikeRecordDo;
-import com.panshi.bikeservice.domain.ConfigDo;
-import com.panshi.bikeservice.domain.ExpiresDo;
+import com.panshi.bikeservice.domain.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.math.BigDecimal;
 
 /**
  * @author：ZLRWJSAN
@@ -37,7 +36,7 @@ public interface BikeMapper {
 
     /**
      * 修改状态
-     * @param s
+     * @param
      */
     void updateState(@Param("s")String state,@Param("vehicleid")int vid);
 
@@ -49,11 +48,48 @@ public interface BikeMapper {
 
 
     /**
-     *  骑行中上报故障
+     * 骑行中上报故障
+     * @param userId
      * @param vehicleid
      * @param part
      * @param remark
-     * @rerurn
+     * @return
      */
     int reportFault(Integer userId,Integer vehicleid, String part, String remark);
+
+    /**
+     * 关锁后支付有优惠券
+     * @param userId 用户id
+     * @param type 支付类型
+     * @param paymentcode 支付密码
+     * @param discount  优惠券
+     * @param money  金额
+     * @return
+     */
+    int bikePay(Integer userId, String type, String paymentcode, BigDecimal money, BigDecimal discount);
+
+    /**
+     * 查询支付密码
+     * @param userId 用户id
+     * @param paymentcode 支付密码
+     * @return
+     */
+    AccountDo queryPayPassword(Integer userId, String paymentcode);
+
+    /**
+     * 扣钱
+     * @param userId 用户id
+     * @param money 金额
+     * @return
+     */
+    int deleteMoney(Integer userId, BigDecimal money);
+
+    /**
+     * 增加金额流水记录
+     * @param userId
+     * @param money
+     * @param type
+     * @return
+     */
+    int addMoneyWater(Integer userId, BigDecimal money, String type);
 }

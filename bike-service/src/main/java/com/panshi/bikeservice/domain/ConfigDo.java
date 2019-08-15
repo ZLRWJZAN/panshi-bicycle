@@ -2,6 +2,7 @@ package com.panshi.bikeservice.domain;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -11,7 +12,7 @@ import java.util.Date;
  * @date 2019/8/14 17:25
  */
 @Data
-public class ConfigDo {
+public class ConfigDo implements Serializable {
     private Integer id;
     private BigDecimal deposit;
     private BigDecimal money;

@@ -6,6 +6,8 @@ import com.panshi.domail.ReturnDTO;
 import com.panshi.domail.outdto.OutReturnsDTO;
 import com.panshi.domail.outdto.OutRideBikeDTO;
 
+import java.math.BigDecimal;
+
 
 public interface BikeService {
     /**
@@ -32,22 +34,16 @@ public interface BikeService {
     OutReturnsDTO reservation(int userid,int vehicleid);
 
     /**
-     *关锁后支付无优惠券
-     * @param userid
+     * 关锁后支付有优惠券
+     * @param userId
      * @param type
      * @param paymentcode
+     * @param money
      * @param discount
-     * @return
      */
-    OutReturnsDTO bikePay(int userid,String type,int paymentcode,float money,String discount);
-    /**
-     *关锁后支付有优惠券
-     * @param userid
-     * @param type
-     * @param paymentcode
-     * @return
-     */
-    OutReturnsDTO bikePay(int userid,String type,int paymentcode,float money);
+    void bikePay(Integer userId, String type, String paymentcode, BigDecimal money, BigDecimal discount);
+
+
     /**
      * 地区查询
      * @param userId 用户名

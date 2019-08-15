@@ -1,6 +1,7 @@
 package com.panshi.bikeservice.service.impl;
 
 import com.panshi.bikeservice.bikeMapper.BikeMapper;
+import com.panshi.bikeservice.domain.AccountDo;
 import com.panshi.bikeservice.domain.BikeDo;
 import com.panshi.bikeservice.domain.BikeRecordDo;
 import com.panshi.bikeservice.domain.ConfigDo;
@@ -14,6 +15,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -44,7 +46,12 @@ public class BikeServiceImpl implements BikeService {
         }
         return new ReturnDTO(200,true,"数据查询成功.","1",s);
     }
-    //判断是否在有效时间
+
+    /**
+     * 判断是否在有效时间
+     * @param cTime
+     * @return
+     */
     private boolean exqTime(Date cTime) {
         Date date = new Date();
         Calendar c = Calendar.getInstance();
@@ -96,33 +103,57 @@ public class BikeServiceImpl implements BikeService {
 
     /**
      * 关锁后支付有优惠券
-     * @param userid 用户id
+     * @param userId 用户id
      * @param type 支付类型
      * @param paymentcode 支付密码
      * @param discount  优惠券
+     * @param money  金额
      * @return
      */
     @Override
-    public OutReturnsDTO bikePay(int userid, String type, int paymentcode, float money,String discount) {
+    @Transactional(rollbackFor = {Exception.class,Error.class,BusinessException.class,RuntimeException.class})
+    public void bikePay(Integer userId, String type, String paymentcode, BigDecimal money, BigDecimal discount) {
+        /**
+         * 判断密码是否正确
+         */
+        AccountDo accountDo = bikeMapper.queryPayPassword(userId, paymentcode);
+        if(accountDo==null){
+            throw new BusinessException(Message.PAY_PASSWORD_ERROR.getCode(),Message.PAY_PASSWORD_ERROR.getMsg());
+        }
 
-        return null;
-    }
+        /**
+         * 没有优惠券的情况
+         */
+        if("".equals(discount) || discount==null){
+            BigDecimal subtract = accountDo.getBalance().subtract(money);
+            if(subtract.compareTo(BigDecimal.ZERO)==-1){
+                throw new BusinessException(Message.NOT_SUFFICIENT_FUNDS.getCode(),Message.NOT_SUFFICIENT_FUNDS.getMsg());
+            }
+        }else{
+            BigDecimal subtract = accountDo.getBalance().subtract(money).add(discount);
+            if(subtract.compareTo(BigDecimal.ZERO)==-1){
+                throw new BusinessException(Message.NOT_SUFFICIENT_FUNDS.getCode(),Message.NOT_SUFFICIENT_FUNDS.getMsg());
+            }
+            /**
+             * 将优惠券的钱减去
+             */
+            money=money.subtract(discount);
+        }
+        /**
+         * 扣钱
+         */
+        int i = bikeMapper.deleteMoney(userId, money);
+        if(i!=1) {
+            throw new BusinessException(Message.DELETE_MONEY_ERROR.getCode(), Message.DELETE_MONEY_ERROR.getMsg());
+        }
 
-    /**
-     * 关锁后支付无有优惠券
-     * @param userid 用户id
-     * @param type 支付类型
-     * @param paymentcode 支付密码
-     * @return
-     */
-    @Override
-    public OutReturnsDTO bikePay(int userid, String type, int paymentcode,float money) {
-        //判断用户的支付密码是否一致
-
-        //判断类型
-        //扣除用户金额
-        //增加金额流水记录
-        return null;
+        /**
+         * 增加金额流水记录
+         */
+        int i1 = bikeMapper.addMoneyWater(userId, money, type);
+        if(i1!=1) {
+            throw new BusinessException(Message.ADD_MONEY_WATER.getCode(), Message.ADD_MONEY_WATER.getMsg());
+        }
     }
 
     @Override
