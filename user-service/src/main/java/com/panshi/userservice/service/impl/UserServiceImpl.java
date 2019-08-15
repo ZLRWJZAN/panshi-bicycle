@@ -26,11 +26,11 @@ public class UserServiceImpl implements UserService {
     private UtilMapper utilMapper;
 
     @Override
-    public void phoneRegister(PhoneRegisterDTO registerDTO){
+    public void phoneRegister(String phone){
         //1、判断手机号是否存在
-        UserDO userDO = utilMapper.findPhone(registerDTO.getPhone());
+        UserDO userDO = utilMapper.findPhone(phone);
         //存在提示不可注册
-        if(userDO.getPhone() != null || userDO.getPhone().equals("")){
+        if(null != userDO){
             throw new BusinessException(Message.PHONE_REGISTER.getCode(),Message.PHONE_REGISTER.getMsg());
         }
 
@@ -41,22 +41,20 @@ public class UserServiceImpl implements UserService {
             str+=(int)(Math.random()*9);
         }
         PhoneVerifyDO phoneVerifyDO = new PhoneVerifyDO();
-        phoneVerifyDO.setUserId(userDO.getId());
         phoneVerifyDO.setType("1");
         phoneVerifyDO.setMessage(str);
-        phoneVerifyDO.setPhone(registerDTO.getPhone());
+        phoneVerifyDO.setPhone(phone);
         userMapper.addVerify(phoneVerifyDO);
-        throw new BusinessException(Message.SEND_VERIFY.getCode(),Message.SEND_VERIFY.getMsg());
     }
 
     @Override
     public void checkout(PhoneRegisterDTO registerDTO){
         //3、验证码是否正确
         PhoneVerifyDO verifyDO = userMapper.queryVerify(registerDTO.getPhone());
-        if(verifyDO == null || verifyDO.equals("")){
+        if(verifyDO == null){
             throw new BusinessException(Message.NO_VERIFY.getCode(),Message.NO_VERIFY.getMsg());
         }
-        if(verifyDO.getMessage() != registerDTO.getVerify()){
+        if(!(verifyDO.getMessage().equals(registerDTO.getVerify()))){
             throw new BusinessException(Message.CORRECT_VERIFY.getCode(),Message.CORRECT_VERIFY.getMsg());
         }
 

@@ -5,10 +5,10 @@ import com.panshi.domail.user.register.inputdto.PhoneRegisterDTO;
 public interface UserService {
     /**
      * 验证手机是否存在并发送短信
-     * @param registerDTO
+     * @param phone
      * @return
      */
-    void phoneRegister(PhoneRegisterDTO registerDTO);
+    void phoneRegister(String phone);
 
     /**
      * 校验验证码并注册
