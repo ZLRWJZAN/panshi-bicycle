@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.panshi.bikeservice.bikeMapper.BikeMapper">
+
+    <!--计费方式-->
+    <select id="chargeMode" resultType="com.panshi.bikeservice.domain.ConfigDo">
+        SELECT
+            billingway
+        FROM
+            ofo_config_t
+    </select>
+
+    <select id="">
+
+    </select>
+</mapper>

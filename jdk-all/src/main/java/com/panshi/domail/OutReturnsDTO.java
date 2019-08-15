@@ -7,7 +7,7 @@ import lombok.Data;
 *@author: 邓俊豪
 *@create: 2019/08/14
 */
-
+@Data
 public class OutReturnsDTO extends ReturnDTO{
 
     boolean state;

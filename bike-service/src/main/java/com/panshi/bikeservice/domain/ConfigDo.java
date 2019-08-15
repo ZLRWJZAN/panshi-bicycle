@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
+ * @description:配置DO
  * @author：ZLRWJSAN
  * @date 2019/8/14 17:25
  */

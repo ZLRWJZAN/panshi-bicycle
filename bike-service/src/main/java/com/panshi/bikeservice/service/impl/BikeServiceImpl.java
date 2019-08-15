@@ -1,6 +1,8 @@
 package com.panshi.bikeservice.service.impl;
 
+import com.panshi.bikeservice.bikeMapper.BikeMapper;
 import com.panshi.bikeservice.bikeMapper.BikeRecordMapper;
+import com.panshi.bikeservice.domain.ConfigDo;
 import com.panshi.bikeservice.service.BikeService;
 import com.panshi.domail.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,8 @@ import java.util.Date;
 */
 @Service
 public class BikeServiceImpl implements BikeService {
-
+    @Autowired
+    private BikeMapper bikeMapper;
     @Autowired
     private BikeRecordMapper brm;
 
@@ -37,9 +40,9 @@ public class BikeServiceImpl implements BikeService {
         //查询数据判断用户是否已经预定
         String expires1 = expires.getExpires();
         if(expires.equals("1")&&expires==null){
-            return new ReturnDTO(300,false,"预约已过期.");
+            return new ReturnDTO(300,false,"预约已过期");
         }
-        BikeDTO bike=brm.getBikeNum(expires.getBikeId());
+        BikeDTO bike=bikeMapper.getBikeNum(expires.getBikeId());
         return new ReturnDTO(200,true,"数据查询成功.","1",bike.getBikeNum());
     }
     //判断是否在有效时间
@@ -115,13 +118,30 @@ public class BikeServiceImpl implements BikeService {
         return null;
     }
 
+    /**
+     * 查询计费方式
+     * @return
+     */
     @Override
     public OutReturnsDTO chargeMode() {
-        return null;
+
+        ConfigDo configDo = bikeMapper.chargeMode();
+
+        OutReturnsDTO outReturnsDTO = new OutReturnsDTO();
+
+        outReturnsDTO.setBillingway(configDo.getBillingway());
+
+        return outReturnsDTO;
     }
 
+    /**
+     * 用户骑车功能
+     * @param userId 用户名
+     * @return
+     */
     @Override
     public RideBikeDTO rideBike(Integer userId) {
+        bikeMapper.rideBike(userId);
         return null;
     }
 
