@@ -15,4 +15,12 @@ public interface UserService {
      * @param registerDTO
      */
     void checkout(PhoneRegisterDTO registerDTO);
+
+
+    /**
+     * 验证码表增加信息
+     * @param code
+     * @param phone
+     */
+    int addVerifyCode(String code,String phone);
 }

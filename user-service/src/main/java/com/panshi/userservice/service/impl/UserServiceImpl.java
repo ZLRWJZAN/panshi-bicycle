@@ -33,18 +33,15 @@ public class UserServiceImpl implements UserService {
         if(userDO != null ){
             throw new BusinessException(Message.PHONE_REGISTER.getCode(),Message.PHONE_REGISTER.getMsg());
         }
+    }
 
-        //2、不存在发送验证码
-        //生成随机数
-        String str="";
-        for (int i=0;i<6;i++){
-            str+=(int)(Math.random()*9);
-        }
+    @Override
+    public int addVerifyCode(String code,String phone){
         PhoneVerifyDO phoneVerifyDO = new PhoneVerifyDO();
         phoneVerifyDO.setType("1");
-        phoneVerifyDO.setMessage(str);
-        phoneVerifyDO.setPhone(registerDTO.getPhone());
-        userMapper.addVerify(phoneVerifyDO);
+        phoneVerifyDO.setMessage(code);
+        phoneVerifyDO.setPhone(phone);
+       return userMapper.addVerify(phoneVerifyDO);
     }
 
     @Override
