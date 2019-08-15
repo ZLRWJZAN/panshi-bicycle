@@ -4,7 +4,6 @@ public enum Message {
 
     VERIFY_SUCCEED(200,"登录成功"),
     VERIFY_REGISTER(200,"注册成功"),
-    SEND_VERIFY(200,"发送成功"),
 
     ACCOUNT_EMPTY(501,"账号不存在"),
     ACCOUNT_PASSWORD_ERROR(502,"账号密码输入错误"),

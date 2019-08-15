@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Mapper
 @Repository
-public interface UserMapper {
+public interface RegisterMapper {
     /**
      * 用户手机注册
      * @param userDO

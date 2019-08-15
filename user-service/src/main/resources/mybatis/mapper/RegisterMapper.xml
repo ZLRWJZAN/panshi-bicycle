@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.panshi.userservice.mapper.UserMapper">
+<mapper namespace="com.panshi.userservice.mapper.RegisterMapper">
 
     <insert id="phoneAddUser">
         INSERT INTO
             ofo_user_t
-            ( username, password, phone, email, ps_num, c_time )
+            ( username, password, phone, ps_num, c_time )
         VALUE
-            ( #{username}, #{password}, #{phone}, #{email}, #{psNum}, NOW() )
+            ( #{username}, #{password}, #{phone}, #{psNum}, NOW() )
     </insert>
 
     <insert id="addVerify">
