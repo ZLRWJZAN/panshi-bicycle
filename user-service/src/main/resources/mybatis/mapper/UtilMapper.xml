@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.panshi.userservice.mapper.UtilMapper">
+
+    <!--查询手机号是否存在-->
+    <select id="findPhone" resultType="com.panshi.userservice.domain.UserDO">
+        SELECT
+        id,
+        phone
+        FROM
+        ofo_user_t
+        where phone = #{phone}
+    </select>
+
+    <!-- 增加邮箱验证信息 -->
+    <insert id="addEmailVerify">
+        INSERT INTO
+            ofo_email_verify_t
+            ( user_id, email, message, send_time, type )
+        VALUE
+            ( #{userId}, #{email}, #{message}, NOW(), #{type} )
+    </insert>
+
+    <!-- 增加手机验证信息 -->
+    <insert id="phoneAddUser">
+        INSERT INTO
+            ofo_user_t
+            ( username, password, phone, ps_num, c_time )
+        VALUE
+            ( #{username}, #{password}, #{phone}, #{psNum}, NOW() )
+    </insert>
+
+</mapper>

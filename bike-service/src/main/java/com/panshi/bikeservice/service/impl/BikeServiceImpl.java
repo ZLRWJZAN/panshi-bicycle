@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.plugin2.message.Message;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -34,13 +33,14 @@ public class BikeServiceImpl implements BikeService {
     /**
      * 查询该用户是否有预定
      * @param userid 用户id
-     * @return ReturnDTO
+     * @return ReturnDTO  单车编号
      */
     @Override
     public ReturnDTO queryReserve(String userid) {
-
+        //从缓存中获取用户对应的单车编号
         String s = srt.opsForValue().get(userid);
-        if(s==null){
+        //如果为空字符则为没有预约或者预约已经过期
+        if("".equals(s)){
             return new ReturnDTO(300,false,"预约已过期");
         }
         return new ReturnDTO(200,true,"数据查询成功.","1",s);
@@ -95,8 +95,12 @@ public class BikeServiceImpl implements BikeService {
      */
     @Override
     public OutReturnsDTO reservation(int userid, int vehicleid) {
+        String s = srt.opsForValue().get("" + userid);
+        if("".equals(s)){
+            return new OutReturnsDTO(300,true,"已经预约.");
+        }
         //预约进入缓存保存15分钟
-        srt.opsForValue().set("userid","vehicleid",15,TimeUnit.MINUTES);
+        srt.opsForValue().set(""+userid,""+vehicleid,15,TimeUnit.MINUTES);
         return new OutReturnsDTO(200,true,"预定成功");
     }
 
@@ -156,8 +160,6 @@ public class BikeServiceImpl implements BikeService {
     }
 
     @Override
-    public RegionDTO regionQuery(Integer userId) {
-        return null;
     public RegionDTO regionQuery() {
         //使用redis进行缓存
         String region = srt.opsForValue().get("region");

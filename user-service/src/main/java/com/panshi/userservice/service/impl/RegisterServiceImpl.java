@@ -1,8 +1,6 @@
 package com.panshi.userservice.service.impl;
 
 import com.panshi.domail.Message;
-import com.panshi.domail.user.login.inputdto.PhoneVerifyInputDTO;
-import com.panshi.domail.user.register.inputdto.PhoneRegisterInputDTO;
 import com.panshi.exception.BusinessException;
 import com.panshi.userservice.domain.PhoneVerifyDO;
 import com.panshi.userservice.domain.UserDO;
@@ -28,12 +26,12 @@ public class RegisterServiceImpl implements RegisterService {
 
     /**
      * 判断手机号是否存在
-     * @param phoneVerifyInputDTO
+     * @param phone
      */
     @Override
-    public void phoneRegister(PhoneVerifyInputDTO phoneVerifyInputDTO){
+    public void phoneRegister(String phone){
         //1、判断手机号是否存在
-        UserDO userDO = utilMapper.findPhone(phoneVerifyInputDTO.getPhone());
+        UserDO userDO = utilMapper.findPhone(phone);
         //存在提示不可注册
         if(userDO != null ){
             throw new BusinessException(Message.PHONE_REGISTER.getCode(),Message.PHONE_REGISTER.getMsg());
@@ -57,32 +55,35 @@ public class RegisterServiceImpl implements RegisterService {
 
     /**
      * 判断验证码是否正确
-     * @param phoneVerifyInputDTO
+     * @param phone
+     * @param verify
      */
     @Override
-    public void checkout(PhoneVerifyInputDTO phoneVerifyInputDTO){
+    public void checkout(String phone,String verify){
         //3、验证码是否正确
-        PhoneVerifyDO verifyDO = registerMapper.queryVerify(phoneVerifyInputDTO.getPhone());
+        PhoneVerifyDO verifyDO = registerMapper.queryVerify(phone);
         if(verifyDO == null){
             throw new BusinessException(Message.NO_VERIFY.getCode(),Message.NO_VERIFY.getMsg());
         }
-        if(!(verifyDO.getMessage().equals(phoneVerifyInputDTO.getVerification()))){
+        if(!(verifyDO.getMessage().equals(verify))){
             throw new BusinessException(Message.CORRECT_VERIFY.getCode(),Message.CORRECT_VERIFY.getMsg());
         }
     }
 
     /**
      * 用户注册
-     * @param phoneRegisterInputDTO
+     * @param username
+     * @param password
+     * @param phone
      */
     @Override
-    public void phoneRegister(PhoneRegisterInputDTO phoneRegisterInputDTO) {
+    public void phoneRegister(String username,String password,String phone) {
         //4、注册此用户信息
         UserDO userDO = new UserDO();
-        userDO.setPhone(phoneRegisterInputDTO.getPhone());
-        userDO.setPsNum("ZC"+phoneRegisterInputDTO.getPhone());
-        userDO.setUsername(phoneRegisterInputDTO.getUsername());
-        userDO.setPassword(phoneRegisterInputDTO.getPassword());
-        registerMapper.phoneAddUser(userDO);
+        userDO.setPhone(phone);
+        userDO.setPsNum("SJZC"+phone);
+        userDO.setUsername(username);
+        userDO.setPassword(password);
+        utilMapper.phoneAddUser(userDO);
     }
 }

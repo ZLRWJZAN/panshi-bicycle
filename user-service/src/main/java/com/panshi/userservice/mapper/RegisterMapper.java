@@ -15,10 +15,10 @@ public interface RegisterMapper {
     void phoneAddUser(UserDO userDO);
 
     /**
-     * 注册发送手机验证码
+     * 验证码表增加一条数据
      * @param phoneVerifyDO
      */
-    void addVerify(PhoneVerifyDO phoneVerifyDO);
+    int addVerify(PhoneVerifyDO phoneVerifyDO);
 
     /**
      * 查询此手机号最进的一条验证码内容

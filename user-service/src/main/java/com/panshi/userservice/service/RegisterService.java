@@ -1,25 +1,20 @@
 package com.panshi.userservice.service;
 
-import com.panshi.domail.user.login.inputdto.PhoneVerifyInputDTO;
-import com.panshi.domail.user.register.inputdto.PhoneRegisterDTO;
-import com.panshi.domail.user.register.inputdto.PhoneRegisterInputDTO;
-
 public interface RegisterService {
-
 
     /**
      * 验证手机是否存在
-     * @param phoneVerifyInputDTO
+     * @param phone
      * @return
      */
-    void phoneRegister(PhoneVerifyInputDTO phoneVerifyInputDTO);
+    void phoneRegister(String phone);
 
     /**
-     * 校验验证码并注册
-     * @param phoneVerifyInputDTO
+     * 校验验证码
+     * @param phone
+     * @param verify
      */
-    void checkout(PhoneVerifyInputDTO phoneVerifyInputDTO);
-
+    void checkout(String phone,String verify);
 
     /**
      * 验证码表增加信息
@@ -28,10 +23,11 @@ public interface RegisterService {
      */
     int addVerifyCode(String code,String phone);
 
-
     /**
      * 设置密码注册
-     * @param phoneRegisterInputDTO
+     * @param username
+     * @param password
+     * @param phone
      */
-    void phoneRegister(PhoneRegisterInputDTO phoneRegisterInputDTO);
+    void phoneRegister(String username,String password,String phone);
 }
