@@ -4,7 +4,13 @@
 
 <mapper namespace="com.panshi.userservice.mapper.RegisterMapper">
 
-
+    <insert id="phoneAddUser">
+        INSERT INTO
+            ofo_user_t
+            ( username, password, phone, email, ps_num, c_time )
+        VALUE
+            ( #{username}, #{password}, #{phone}, #{email}, #{psNum}, NOW() )
+    </insert>
 
     <insert id="addVerify">
         INSERT INTO
