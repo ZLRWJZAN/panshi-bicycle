@@ -71,12 +71,11 @@ public interface BikeMapper {
     int bikePay(Integer userId, String type, String paymentcode, BigDecimal money, BigDecimal discount);
 
     /**
-     * 查询支付密码
+     * 查询用户信息
      * @param userId 用户id
-     * @param paymentcode 支付密码
      * @return
      */
-    AccountDo queryPayPassword(Integer userId, String paymentcode);
+    AccountDo queryPayPassword(Integer userId);
 
     /**
      * 扣钱

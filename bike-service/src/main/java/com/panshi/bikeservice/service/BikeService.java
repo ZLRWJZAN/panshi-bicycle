@@ -34,7 +34,7 @@ public interface BikeService {
     OutReturnsDTO reservation(int userid,int vehicleid);
 
     /**
-     * 关锁后支付有优惠券
+     * 关锁后支付
      * @param userId
      * @param type
      * @param paymentcode
@@ -42,7 +42,6 @@ public interface BikeService {
      * @param discount
      */
     void bikePay(Integer userId, String type, String paymentcode, BigDecimal money, BigDecimal discount);
-
 
     /**
      * 地区查询
