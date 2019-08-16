@@ -59,16 +59,7 @@ public interface BikeMapper {
      */
     int reportFault(Integer userId,Integer vehicleid, String part, String remark);
 
-    /**
-     * 关锁后支付有优惠券
-     * @param userId 用户id
-     * @param type 支付类型
-     * @param paymentcode 支付密码
-     * @param discount  优惠券
-     * @param money  金额
-     * @return
-     */
-    int bikePay(Integer userId, String type, String paymentcode, BigDecimal money, BigDecimal discount);
+
 
     /**
      * 查询用户信息

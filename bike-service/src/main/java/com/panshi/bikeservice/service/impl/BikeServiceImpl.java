@@ -288,7 +288,9 @@ public class BikeServiceImpl implements BikeService {
             //单车编号  对应已经上标志1 为已经上报故障车
             srt.opsForValue().set(vehicleid+"fault","1");
         }
-        orb.setState(true);orb.setMessage("上报成功");orb.setCode(200);
+        orb.setState(true);
+        orb.setMessage("上报成功");
+        orb.setCode(200);
         return orb;
     }
 
@@ -310,6 +312,7 @@ public class BikeServiceImpl implements BikeService {
      */
     @Override
     public OutRideBikeDTO queryFault(Integer page, Integer size) {
+
         return null;
     }
 }
