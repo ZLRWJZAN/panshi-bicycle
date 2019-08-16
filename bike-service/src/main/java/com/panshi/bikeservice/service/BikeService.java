@@ -105,5 +105,5 @@ public interface BikeService {
      * @param size 分页大小
      * @return
      */
-    OutRideBikeDTO queryFault(Integer page,Integer size);
+    OutRideBikeDTO queryFault(Integer userId,Integer page,Integer size);
 }

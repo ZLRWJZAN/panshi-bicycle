@@ -113,4 +113,7 @@ public interface BikeMapper {
     //增加数据到故障记录表
     void createRecordFault(RecordFaultDo recordFaultDo);
 
+    List<RecordFaultDo> queryFaultByUserId(Integer userId, Integer page, Integer size);
+    //查询用户上报的故障
+    BikeRecordDo queryRecordBike(@Param("id") Integer sid);
 }

@@ -167,7 +167,27 @@
         up_time as upTime
         from ofo_bike_t where locationId=#{id} limit (#{page}-1)*#{size},#{size}
     </select>
+    <!--增加数据到故障记录表-->
     <insert id="createRecordFault" parameterType="com.panshi.bikeservice.domain.RecordFaultDo">
-        insert into ofo_fault_record_t (bick_id,c_time,fault_type,remark,up_time) values (#{bickId},now(),#{faultType},#{remark},now())
+        insert into ofo_fault_record_t (user_id,bick_id,c_time,fault_type,remark,up_time) values (#{userId},#{bickId},now(),#{faultType},#{remark},now())
     </insert>
+
+    <!--根据用户id查询用户历史上报的故障-->
+    <select id="queryFaultByUserId" resultType="com.panshi.bikeservice.domain.RecordFaultDo">
+        select id,
+        user_id as userId,
+        bick_id as bickId,
+        c_time as cTime,
+        remark,
+        fault_type as faultType from ofo_fault_record_t where user_id=#{userId} limit (#{page}-1)*#{size},#{size}
+    </select>
+    <!--查询骑车记录-->
+    <select id="queryRecordBike" resultType="com.panshi.bikeservice.domain.BikeRecordDo">
+        select id,
+        user_id as userId,
+        bike_id as bikeId,
+        begin_id as beginId,
+        end_id as endId,
+        c_time as cTime from ofo_bike_record_t where bike_id=#{sid} order by c_time DESC
+    </select>
 </mapper>

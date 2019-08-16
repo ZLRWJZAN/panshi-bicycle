@@ -278,7 +278,10 @@ public class BikeServiceImpl implements BikeService {
         if(s.equals("")){
             //根据单车编号 获得对象
             BikeDo bikeNum = bikeMapper.getBikeNum(vehicleid);
+            //根据单车编号 获得骑行记录对象
+            BikeRecordDo bikeRecordDo = bikeMapper.queryRecordBike(bikeNum.getId());
             RecordFaultDo recordFaultDo=new RecordFaultDo();
+            recordFaultDo.setUserId(bikeRecordDo.getUserId());
             recordFaultDo.setBickId(bikeNum.getId());
             recordFaultDo.setFaultType(part);
             recordFaultDo.setRemark(remark);
@@ -302,9 +305,21 @@ public class BikeServiceImpl implements BikeService {
      * @return
      */
     @Override
-    public OutRideBikeDTO queryFault(Integer page, Integer size) {
-
-        return null;
+    public OutRideBikeDTO queryFault(Integer userId,Integer page, Integer size) {
+        //根据用户id查询骑车记录表 获得 故障记录表获得数据
+        OutRideBikeDTO orb=new OutRideBikeDTO();
+        //所以redis进行缓存5分钟
+        String s = srt.opsForValue().get(userId + "history");
+        if("".equals(s)){
+            List<RecordFaultDo> recordFaultDos = bikeMapper.queryFaultByUserId(userId, page, size);
+            s=recordFaultDos.toString();
+            srt.opsForValue().set(userId+"history",s,300,TimeUnit.SECONDS);
+        }
+        orb.setCode(200);
+        orb.setMessage("查询成功");
+        orb.setState(true);
+        orb.setData(s);
+        return orb;
     }
 
 

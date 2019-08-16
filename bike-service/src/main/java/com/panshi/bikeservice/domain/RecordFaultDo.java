@@ -12,7 +12,7 @@ import java.util.Date;
 @Data
 public class RecordFaultDo {
     Integer id;
-    Integer recordId;
+    Integer userId;
     Integer bickId;
     Date cTime;
     Date disTime;
