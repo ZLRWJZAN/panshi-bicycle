@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.plugin2.message.Message;
+
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -113,13 +113,27 @@ public class BikeServiceImpl implements BikeService {
     @Transactional(rollbackFor = {Exception.class,Error.class,BusinessException.class,RuntimeException.class})
     public void bikePay(Integer userId, String type, String paymentcode, BigDecimal money, BigDecimal discount) {
         /**
-         * 判断密码是否正确
+         *  查询用户信息
          */
-        AccountDo accountDo = bikeMapper.queryPayPassword(userId, paymentcode);
+        AccountDo accountDo = bikeMapper.queryPayPassword(userId);
         if(accountDo==null){
-            throw new BusinessException(Message.PAY_PASSWORD_ERROR.getCode(),Message.PAY_PASSWORD_ERROR.getMsg());
+            throw new BusinessException(Message.QUERY_ERROR.getCode(),Message.QUERY_ERROR.getMsg());
         }
+        /**
+         * 如果没有免密
+         */
+        if("0".equals(accountDo.getNoPassword())){
+            if("".equals(paymentcode) || paymentcode==null){
+                throw new BusinessException(Message.PAY_PASSWORD_ERROR.getCode(),Message.PAY_PASSWORD_ERROR.getMsg());
+            }else if(accountDo.getPayPassword().equals(paymentcode)){
+                pay(accountDo,userId,type,money,discount);
+            }
+        }else{
+            pay(accountDo,userId,type,money,discount);
+        }
+    }
 
+    public void pay(AccountDo accountDo,Integer userId, String type, BigDecimal money, BigDecimal discount){
         /**
          * 没有优惠券的情况
          */
@@ -138,6 +152,7 @@ public class BikeServiceImpl implements BikeService {
              */
             money=money.subtract(discount);
         }
+
         /**
          * 扣钱
          */
@@ -156,8 +171,6 @@ public class BikeServiceImpl implements BikeService {
     }
 
     @Override
-    public RegionDTO regionQuery(Integer userId) {
-        return null;
     public RegionDTO regionQuery() {
         //使用redis进行缓存
         String region = srt.opsForValue().get("region");
@@ -215,7 +228,7 @@ public class BikeServiceImpl implements BikeService {
      * @return
      */
     @Override
-    public void reportFault(Integer userId,Integer vehicleid, String part, String remark) {
+    public void reportFault(Integer userId,Integer vehicleid,String part,String remark) {
         int i = bikeMapper.reportFault(userId, vehicleid, part, remark);
         if(i!=1){
             throw new BusinessException(Message.REPORT_RAULR.getCode(),Message.REPORT_RAULR.getMsg());
