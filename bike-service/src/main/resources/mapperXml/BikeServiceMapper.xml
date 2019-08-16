@@ -91,7 +91,6 @@
         from
             ofo_account_t
         where  user_id=#{userId}
-        and no_password=#{paymentcode}
     </select>
 
     <!--扣钱-->
