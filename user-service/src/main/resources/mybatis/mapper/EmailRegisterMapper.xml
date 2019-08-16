@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.panshi.userservice.mapper.EmailRegisterMapper">
+
+
+    <insert id="emailAddUser">
+        INSERT INTO
+            ofo_user_t
+            ( username, password, email, ps_num, c_time )
+        VALUE
+            ( #{username}, #{password}, #{email}, #{psNum}, NOW() )
+    </insert>
+
+    <select id="findUserCode" resultType="com.panshi.userservice.domain.UserDO">
+        SELECT
+            id,
+            username,
+            PASSWORD,
+            phone,
+            email,
+            ps_num AS psNum,
+            c_time AS cTime,
+            up_time upTime
+        FROM
+            ofo_user_t
+        WHERE
+            username = #{value}
+            OR email = #{value}
+    </select>
+
+    <select id="findEmailVerify" resultType="com.panshi.userservice.domain.EmailVerifyDO">
+        SELECT
+            id,
+            user_id AS userId,
+            email,
+            type,
+            message,
+            send_time AS sendTime,
+            up_time AS upTime
+        FROM
+            ofo_email_verify_t
+        WHERE
+            email = #{value}
+        AND send_time > date_sub(sysdate(), INTERVAL 60 SECOND)
+        ORDER BY
+            send_time DESC
+        LIMIT 0,1
+    </select>
+</mapper>

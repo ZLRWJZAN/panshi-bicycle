@@ -13,7 +13,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,7 +34,7 @@ public class BikeServiceImpl implements BikeService {
     /**
      * 查询该用户是否有预定
      * @param userid 用户id
-     * @return ReturnDTO
+     * @return ReturnDTO  单车编号
      */
     @Override
     public ReturnDTO queryReserve(String userid) {
@@ -96,8 +95,14 @@ public class BikeServiceImpl implements BikeService {
      */
     @Override
     public OutReturnsDTO reservation(int userid, int vehicleid) {
+
+        //判断是否已经预定功
+        String s = srt.opsForValue().get("" + userid);
+        if("".equals(s)){
+            return new OutReturnsDTO(300,true,"已经预约.");
+        }
         //预约进入缓存保存15分钟
-        srt.opsForValue().set("userid","vehicleid",15,TimeUnit.MINUTES);
+        srt.opsForValue().set(""+userid,""+vehicleid,15,TimeUnit.MINUTES);
         return new OutReturnsDTO(200,true,"预定成功");
     }
 
@@ -258,16 +263,50 @@ public class BikeServiceImpl implements BikeService {
     }
 
     /**
-     *  上报故障
+     *上报故障
      * @param vehicleid 车辆编号
-     * @param part 故障零件
+     * @param part   故障零件即故障类型
      * @param remark 故障描述
      * @return
      */
+    @Transactional
     @Override
     public OutRideBikeDTO uploadingfault(Integer vehicleid, String part, String remark) {
+        OutRideBikeDTO orb=new OutRideBikeDTO();
+        String s = srt.opsForValue().get(vehicleid+"fault");
+        //如果为空字符 则为第一次上报故障车 否则直接返回消息
+        if(s.equals("")){
+            //根据单车编号 获得对象
+            BikeDo bikeNum = bikeMapper.getBikeNum(vehicleid);
+            RecordFaultDo recordFaultDo=new RecordFaultDo();
+            recordFaultDo.setBickId(bikeNum.getId());
+            recordFaultDo.setFaultType(part);
+            recordFaultDo.setRemark(remark);
+            //插入故障记录表
+            bikeMapper.createRecordFault(recordFaultDo);
+            //修改单车状态
+            bikeMapper.updateState("0",bikeNum.getBikeNum());
+            //单车编号  对应已经上标志1 为已经上报故障车
+            srt.opsForValue().set(vehicleid+"fault","1");
+        }
+        orb.setState(true);
+        orb.setMessage("上报成功");
+        orb.setCode(200);
+        return orb;
+    }
+
+    /**
+     * 历史故障
+     * @param page 当前页
+     * @param size 分页大小
+     * @return
+     */
+    @Override
+    public OutRideBikeDTO queryFault(Integer page, Integer size) {
+
         return null;
     }
+
 
     /**
      *  查询故障详细信息
@@ -289,16 +328,5 @@ public class BikeServiceImpl implements BikeService {
         outQueryFault.setState(faultRecordDo.getState());
 
         return outQueryFault;
-    }
-
-    /**
-     *  查询历史故障
-     * @param page 当前页
-     * @param size 分页大小
-     * @return
-     */
-    @Override
-    public OutRideBikeDTO queryFault(Integer page, Integer size) {
-        return null;
     }
 }

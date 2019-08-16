@@ -14,7 +14,7 @@
         <result property="endTime" column="endTime"/>
         <result property="runKm" column="runKm"/>
         <result property="runCost" column="runCost"/>
-        <result property="cTime" column="cTime"/>
+        <result property="upTime" column="upTime"/>
         <result property="bikeDo.bikeNum" column="bikeNum"/>
         <result property="locationDo.location" column="location"/>
     </resultMap>
@@ -59,7 +59,7 @@
             r.end_time as endTime,
             r.run_km as runKm,
             r.run_cost as runCost,
-            r.c_time as cTime,
+            r.c_time as upTime,
             b.bike_num as bikeNum,
             l.location as location
         FROM
@@ -145,7 +145,6 @@
         up_time as upTime
         from ofo_location_t
     </select>
-
     <!--根据地区获取对象-->
     <select id="getlocationByLocation" resultType="com.panshi.bikeservice.domain.LocationDo">
         SELECT
@@ -158,7 +157,6 @@
         WHERE
             location = #{location}
     </select>
-
     <!--根据地区id获取单车集合-->
     <select id="getBikeBylocationid" resultType="com.panshi.bikeservice.domain.BikeDo">
         select id,
@@ -169,7 +167,7 @@
         up_time as upTime
         from ofo_bike_t where locationId=#{id} limit (#{page}-1)*#{size},#{size}
     </select>
-
-
-
+    <insert id="createRecordFault" parameterType="com.panshi.bikeservice.domain.RecordFaultDo">
+        insert into ofo_fault_record_t (bick_id,c_time,fault_type,remark,up_time) values (#{bickId},now(),#{faultType},#{remark},now())
+    </insert>
 </mapper>

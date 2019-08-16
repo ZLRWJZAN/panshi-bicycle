@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class BusinessException extends RuntimeException{
 
-    private Integer code;
+ private Integer code;
 
-    private String message;
+ private String message;
 
     public BusinessException(Integer code, String message) {
         this.code = code;

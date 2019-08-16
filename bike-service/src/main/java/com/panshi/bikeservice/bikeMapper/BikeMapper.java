@@ -110,4 +110,7 @@ public interface BikeMapper {
      * @param faultId
      */
     FaultRecordDo queryFault(Integer faultId);
+    //增加数据到故障记录表
+    void createRecordFault(RecordFaultDo recordFaultDo);
+
 }
