@@ -252,8 +252,11 @@ public class BikeServiceImpl implements BikeService {
      * @param remark 故障描述
      * @return
      */
+    @Transactional
     @Override
     public OutRideBikeDTO uploadingfault(Integer vehicleid, String part, String remark) {
+        //插入故障记录表
+        //修改单车状态
         return null;
     }
 
