@@ -19,6 +19,34 @@
         <result property="locationDo.location" column="location"/>
     </resultMap>
 
+    <!--查询故障详细信息-->
+    <resultMap id="queryDetailed" type="com.panshi.bikeservice.domain.FaultRecordDo">
+        <id property="id" column="id"/>
+        <result property="state" column="state"/>
+        <result property="cTime" column="cTime"/>
+        <result property="disTime" column="disTime"/>
+        <result property="faultType" column="faultType"/>
+        <result property="remark" column="remark"/>
+        <result property="bikeDo.bikeNum" column="bikeNum"/>
+    </resultMap>
+
+    <!--查询故障详细信息-->
+    <select id="queryFault" resultMap="queryDetailed">
+        SELECT
+            f.id as id
+            f.state as state,
+            f.c_time as cTime,
+            f.dis_time as disTime,
+            f.fault_type as faultType,
+            f.remark as remark,
+            b.bike_num as bikeNum
+        FROM
+            ofo_fault_record_t f
+            LEFT JOIN ofo_bike_t b ON ( b.id = f.bick_id )
+        WHERE
+            f.id = #{faultId}
+    </select>
+
     <!--骑车中查询信息-->
     <select id="rideBike" resultMap="queryCycling">
         SELECT
@@ -117,10 +145,20 @@
         up_time as upTime
         from ofo_location_t
     </select>
+
     <!--根据地区获取对象-->
     <select id="getlocationByLocation" resultType="com.panshi.bikeservice.domain.LocationDo">
-        select id,location,c_time as cTime,up_time as upTime from ofo_location_t where location=#{location}
+        SELECT
+            id,
+            location,
+            c_time AS cTime,
+            up_time AS upTime
+        FROM
+            ofo_location_t
+        WHERE
+            location = #{location}
     </select>
+
     <!--根据地区id获取单车集合-->
     <select id="getBikeBylocationid" resultType="com.panshi.bikeservice.domain.BikeDo">
         select id,
@@ -131,4 +169,7 @@
         up_time as upTime
         from ofo_bike_t where locationId=#{id} limit (#{page}-1)*#{size},#{size}
     </select>
+
+
+
 </mapper>

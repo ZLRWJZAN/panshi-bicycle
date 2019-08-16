@@ -4,6 +4,7 @@ import com.panshi.bikeservice.bikeMapper.BikeMapper;
 import com.panshi.bikeservice.domain.*;
 import com.panshi.bikeservice.service.BikeService;
 import com.panshi.domail.*;
+import com.panshi.domail.outdto.OutQueryFault;
 import com.panshi.domail.outdto.OutReturnsDTO;
 import com.panshi.domail.outdto.OutRideBikeDTO;
 import com.panshi.exception.BusinessException;
@@ -254,5 +255,50 @@ public class BikeServiceImpl implements BikeService {
         outRideBikeDTO.setMessage("数据查询成功");
         outRideBikeDTO.setData(list);
         return outRideBikeDTO;
+    }
+
+    /**
+     *  上报故障
+     * @param vehicleid 车辆编号
+     * @param part 故障零件
+     * @param remark 故障描述
+     * @return
+     */
+    @Override
+    public OutRideBikeDTO uploadingfault(Integer vehicleid, String part, String remark) {
+        return null;
+    }
+
+    /**
+     *  查询故障详细信息
+     * @param faultId 故障id
+     * @return
+     */
+    @Override
+    public OutQueryFault faultById(Integer faultId) {
+        FaultRecordDo faultRecordDo = bikeMapper.queryFault(faultId);
+
+        OutQueryFault outQueryFault = new OutQueryFault();
+
+        outQueryFault.setId(faultRecordDo.getId());
+        outQueryFault.setBikeNum(faultRecordDo.getBikeDo().getBikeNum());
+        outQueryFault.setCTime(faultRecordDo.getCTime());
+        outQueryFault.setDisTime(faultRecordDo.getDisTime());
+        outQueryFault.setFaultType(faultRecordDo.getFaultType());
+        outQueryFault.setRemark(faultRecordDo.getRemark());
+        outQueryFault.setState(faultRecordDo.getState());
+
+        return outQueryFault;
+    }
+
+    /**
+     *  查询历史故障
+     * @param page 当前页
+     * @param size 分页大小
+     * @return
+     */
+    @Override
+    public OutRideBikeDTO queryFault(Integer page, Integer size) {
+        return null;
     }
 }

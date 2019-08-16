@@ -60,17 +60,6 @@ public interface BikeMapper {
     int reportFault(Integer userId,Integer vehicleid, String part, String remark);
 
     /**
-     * 关锁后支付有优惠券
-     * @param userId 用户id
-     * @param type 支付类型
-     * @param paymentcode 支付密码
-     * @param discount  优惠券
-     * @param money  金额
-     * @return
-     */
-    int bikePay(Integer userId, String type, String paymentcode, BigDecimal money, BigDecimal discount);
-
-    /**
      * 查询用户信息
      * @param userId 用户id
      * @return
@@ -94,10 +83,31 @@ public interface BikeMapper {
      */
     int addMoneyWater(Integer userId, BigDecimal money, String type);
 
-    //获取全部地区
+    /**
+     * 获取全部地区
+     * @return
+     */
     List<LocationDo> getAllRegion();
-    //根据location获得对象
+
+    /**
+     * 根据location获得对象
+     * @param location
+     * @return
+     */
     LocationDo getlocationByLocation(@Param("location") String location);
-    //获取当前地区的全部单车
+
+    /**
+     * 获取当前地区的全部单车
+     * @param id
+     * @param size
+     * @param page
+     * @return
+     */
     List<BikeDo> getBikeBylocationid(@Param("id")Integer id,@Param("size") Integer size, @Param("page")Integer page);
+
+    /**
+     * 查询故障详细信息
+     * @param faultId
+     */
+    FaultRecordDo queryFault(Integer faultId);
 }
