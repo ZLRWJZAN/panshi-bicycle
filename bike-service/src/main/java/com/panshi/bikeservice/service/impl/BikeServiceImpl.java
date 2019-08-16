@@ -244,4 +244,37 @@ public class BikeServiceImpl implements BikeService {
         outRideBikeDTO.setData(list);
         return outRideBikeDTO;
     }
+
+    /**
+     *上报故障
+     * @param vehicleid 车辆编号
+     * @param part 故障零件
+     * @param remark 故障描述
+     * @return
+     */
+    @Override
+    public OutRideBikeDTO uploadingfault(Integer vehicleid, String part, String remark) {
+        return null;
+    }
+
+    /**
+     *故障详情
+     * @param faultId 故障id
+     * @return
+     */
+    @Override
+    public OutRideBikeDTO faultById(Integer faultId) {
+        return null;
+    }
+
+    /**
+     * 历史故障
+     * @param page 当前页
+     * @param size 分页大小
+     * @return
+     */
+    @Override
+    public OutRideBikeDTO queryFault(Integer page, Integer size) {
+        return null;
+    }
 }
