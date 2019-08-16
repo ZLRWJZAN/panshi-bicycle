@@ -101,4 +101,7 @@ public interface BikeMapper {
     LocationDo getlocationByLocation(@Param("location") String location);
     //获取当前地区的全部单车
     List<BikeDo> getBikeBylocationid(@Param("id")Integer id,@Param("size") Integer size, @Param("page")Integer page);
+    //增加数据到故障记录表
+    void createRecordFault(RecordFaultDo recordFaultDo);
+
 }

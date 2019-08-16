@@ -132,4 +132,7 @@
         up_time as upTime
         from ofo_bike_t where locationId=#{id} limit (#{page}-1)*#{size},#{size}
     </select>
+    <insert id="createRecordFault" parameterType="com.panshi.bikeservice.domain.RecordFaultDo">
+
+    </insert>
 </mapper>

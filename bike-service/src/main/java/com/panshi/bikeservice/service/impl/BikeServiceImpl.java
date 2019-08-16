@@ -248,15 +248,20 @@ public class BikeServiceImpl implements BikeService {
     /**
      *上报故障
      * @param vehicleid 车辆编号
-     * @param part 故障零件
+     * @param part   故障零件即故障类型
      * @param remark 故障描述
      * @return
      */
     @Transactional
     @Override
     public OutRideBikeDTO uploadingfault(Integer vehicleid, String part, String remark) {
+        //根据单车编号 获得对象
+        BikeDo bikeNum = bikeMapper.getBikeNum(vehicleid);
+        RecordFaultDo recordFaultDo=new RecordFaultDo();
         //插入故障记录表
+        bikeMapper.createRecordFault(recordFaultDo);
         //修改单车状态
+        bikeMapper.updateState("0",bikeNum.getBikeNum());
         return null;
     }
 
