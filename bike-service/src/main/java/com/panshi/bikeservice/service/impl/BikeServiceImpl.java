@@ -95,6 +95,11 @@ public class BikeServiceImpl implements BikeService {
      */
     @Override
     public OutReturnsDTO reservation(int userid, int vehicleid) {
+        //判断是否已经预定功
+        String s = srt.opsForValue().get("" + userid);
+        if("".equals(s)){
+            return new OutReturnsDTO(300,true,"已经预约.");
+        }
         //预约进入缓存保存15分钟
         srt.opsForValue().set("userid","vehicleid",15,TimeUnit.MINUTES);
         return new OutReturnsDTO(200,true,"预定成功");
