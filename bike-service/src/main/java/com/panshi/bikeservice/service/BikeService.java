@@ -81,4 +81,28 @@ public interface BikeService {
      * @return
      */
     OutRideBikeDTO queryVehicle(String region,Integer size,Integer page);
+
+    /**
+     * 上报故障
+     * @param vehicleid 车辆编号
+     * @param part 故障零件
+     * @param remark 故障描述
+     * @return
+     */
+    OutRideBikeDTO  uploadingfault(Integer vehicleid,String part,String remark);
+
+    /**
+     * 查询故障详细信息
+     * @param faultId 故障id
+     * @return
+     */
+    OutRideBikeDTO faultById(Integer faultId);
+
+    /**
+     * 查询历史故障
+     * @param page 当前页
+     * @param size 分页大小
+     * @return
+     */
+    OutRideBikeDTO queryFault(Integer page,Integer size);
 }
