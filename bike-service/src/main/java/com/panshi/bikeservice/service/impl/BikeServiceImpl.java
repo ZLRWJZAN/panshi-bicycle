@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.plugin2.message.Message;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -272,14 +271,25 @@ public class BikeServiceImpl implements BikeService {
     @Transactional
     @Override
     public OutRideBikeDTO uploadingfault(Integer vehicleid, String part, String remark) {
-        //根据单车编号 获得对象
-        BikeDo bikeNum = bikeMapper.getBikeNum(vehicleid);
-        RecordFaultDo recordFaultDo=new RecordFaultDo();
-        //插入故障记录表
-        bikeMapper.createRecordFault(recordFaultDo);
-        //修改单车状态
-        bikeMapper.updateState("0",bikeNum.getBikeNum());
-        return null;
+        OutRideBikeDTO orb=new OutRideBikeDTO();
+        String s = srt.opsForValue().get(vehicleid+"fault");
+        //如果为空字符 则为第一次上报故障车 否则直接返回消息
+        if(s.equals("")){
+            //根据单车编号 获得对象
+            BikeDo bikeNum = bikeMapper.getBikeNum(vehicleid);
+            RecordFaultDo recordFaultDo=new RecordFaultDo();
+            recordFaultDo.setBickId(bikeNum.getId());
+            recordFaultDo.setFaultType(part);
+            recordFaultDo.setRemark(remark);
+            //插入故障记录表
+            bikeMapper.createRecordFault(recordFaultDo);
+            //修改单车状态
+            bikeMapper.updateState("0",bikeNum.getBikeNum());
+            //单车编号  对应已经上标志1 为已经上报故障车
+            srt.opsForValue().set(vehicleid+"fault","1");
+        }
+        orb.setState(true);orb.setMessage("上报成功");orb.setCode(200);
+        return orb;
     }
 
     /**
